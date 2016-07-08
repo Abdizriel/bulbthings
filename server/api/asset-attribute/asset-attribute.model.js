@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define('Asset', {
+  return sequelize.define('AssetAtribute', {
 
     _id: {
       type: DataTypes.INTEGER,
