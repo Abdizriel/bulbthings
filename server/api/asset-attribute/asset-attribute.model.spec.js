@@ -1,23 +1,24 @@
 'use strict';
 
-import { Asset } from '../../config/db.conf.js';
+import { AssetAttribute } from '../../config/db.conf.js';
 import { expect } from 'chai';
 
 const genAsset = () => {
-    asset = Asset.build({
-        name: '21.5-inch iMac with Retina 4K display'
+    assetAttribute = AssetAttribute.build({
+        key: 'Length',
+        value: '100cm'
     });
-    return asset;
+    return assetAttribute;
 };
 
-let asset;
+let assetAttribute;
 
-describe('Asset Model', () => {
+describe('Asset Attribute Model', () => {
 
     before(() =>{
-        return Asset.sync()
+        return AssetAttribute.sync()
             .then(() => {
-                return Asset.destroy({ where: {} });
+                return AssetAttribute.destroy({ where: {} });
             });
     });
 
@@ -26,14 +27,14 @@ describe('Asset Model', () => {
     });
 
     afterEach(() => {
-        return Asset.destroy({ where: {} });
+        return AssetAttribute.destroy({ where: {} });
     });
 
     it('should fail when saving a duplicate asset', () => {
-        return expect(asset.save()
+        return expect(assetAttribute.save()
             .then(() => {
-                const assetDup = genAsset();
-                return assetDup.save();
+                const assetAttributeDup = genAsset();
+                return assetAttributeDup.save();
             })).to.be.rejected;
     });
 

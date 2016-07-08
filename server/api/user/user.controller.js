@@ -19,6 +19,18 @@ import { User } from '../../config/db.conf';
 import { handleError, handleEntityNotFound, removeEntity, saveUpdates, respondWithResult } from '../utils';
 
 /**
+ * @function index
+ * @description Function that returns all asset types
+ * @param {Object} req - Express Framework Request Object
+ * @param {Object} res - Express Framework Response Object
+ */
+function index(req, res) {
+  return User.findAll()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+/**
  * @function show
  * @description Function that returns single user by id provided in url
  * @param {Object} req - Express Framework Request Object

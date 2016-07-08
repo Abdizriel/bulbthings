@@ -1,39 +1,39 @@
 'use strict';
 
-import { Asset } from '../../config/db.conf.js';
+import { Allocation } from '../../config/db.conf.js';
 import { expect } from 'chai';
 
-const genAsset = () => {
-    asset = Asset.build({
+const genAllocation = () => {
+    allocation = Allocation.build({
         name: '21.5-inch iMac with Retina 4K display'
     });
-    return asset;
+    return allocation;
 };
 
-let asset;
+let allocation;
 
-describe('Asset Model', () => {
+describe('Allocation Model', () => {
 
     before(() =>{
-        return Asset.sync()
+        return Allocation.sync()
             .then(() => {
-                return Asset.destroy({ where: {} });
+                return Allocation.destroy({ where: {} });
             });
     });
 
     beforeEach(() => {
-        genAsset();
+        genAllocation();
     });
 
     afterEach(() => {
-        return Asset.destroy({ where: {} });
+        return Allocation.destroy({ where: {} });
     });
 
-    it('should fail when saving a duplicate asset', () => {
-        return expect(asset.save()
+    it('should fail when saving a duplicate allocation', () => {
+        return expect(allocation.save()
             .then(() => {
-                const assetDup = genAsset();
-                return assetDup.save();
+                const allocationDup = genAllocation();
+                return allocationDup.save();
             })).to.be.rejected;
     });
 

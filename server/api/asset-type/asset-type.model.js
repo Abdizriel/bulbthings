@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     name: DataTypes.STRING,
-    attributes: DataTypes.JSON,
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW

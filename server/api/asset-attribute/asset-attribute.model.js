@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    name: DataTypes.STRING,
+    key: DataTypes.STRING,
+    value: DataTypes.STRING,
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
@@ -22,10 +23,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     getterMethods: {
       // Public profile information
-      asset: function() {
+      attribute: function() {
         return {
           'id': this._id,
-          'name': this.name
+          'key': this.key,
+          'value': this.value
         };
       }
     },
