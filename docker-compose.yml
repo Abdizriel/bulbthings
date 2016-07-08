@@ -1,4 +1,14 @@
-# NodeJS RESTful API Microservices
+# Reverse Proxy
+nginx:
+    build: ./nginx
+    links:
+        - server1:server1
+        - server2:server2
+        - server3:server3
+    ports:
+        - "80:80"
+
+# NodeJS RESTful API
 server1:
     build: ./server
     links:
