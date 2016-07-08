@@ -9,7 +9,24 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    allocationRange: DataTypes.RANGE,
+    allocationRange: {
+      type: DataTypes.RANGE,
+      allowNull: false
+    },
+    AssetId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        isInt: true
+      }
+    },
+    UserId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        isInt: true
+      }
+    },
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW

@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         isUnique: (value, next) => {
           const query = {
@@ -33,7 +34,23 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     attrs: {
-      type: DataTypes.ARRAY(DataTypes.STRING)
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: false,
+      validate: {
+        isArray: (value, next) => {
+          if(!Array.isArray(value)) return next('attrs is not Array type.');
+          return next();
+        },
+        hasItems: (value, next) => {
+          if(!value.length) return next('You must provide at least one parameter.');
+          return next();
+        },
+        hasStringItems: (value, next) => {
+          value = value.filter(item => typeof item != 'string');
+          if(value.length) return next('You must provide String parameters.');
+          return next();
+        }
+      }
     },
     createdAt: {
       type: DataTypes.DATE,
