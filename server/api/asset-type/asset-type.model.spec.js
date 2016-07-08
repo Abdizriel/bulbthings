@@ -5,7 +5,8 @@ import { expect } from 'chai';
 
 const genAsset = () => {
     assetType = AssetType.build({
-        name: '21.5-inch iMac with Retina 4K display'
+        name: 'Car',
+        attributes: ['width', 'height', 'length' ]
     });
     return assetType;
 };

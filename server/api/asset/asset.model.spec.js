@@ -5,7 +5,13 @@ import { expect } from 'chai';
 
 const genAsset = () => {
     asset = Asset.build({
-        name: '21.5-inch iMac with Retina 4K display'
+        name: 'Kia Sportage',
+        assetTypeId: 1,
+        parameters: {
+          width: 200,
+          height: 120,
+          length: 350
+        }
     });
     return asset;
 };
@@ -35,6 +41,16 @@ describe('Asset Model', () => {
                 const assetDup = genAsset();
                 return assetDup.save();
             })).to.be.rejected;
+    });
+
+    it('should fail when saving asset with unknown asset type', () => {
+        asset.assetTypeId = 666;
+        return expect(user.save()).to.be.rejected;
+    });
+
+    it('should save asset with unknown parameters', () => {
+        asset.parameters['model'] = 'Kia';
+        return expect(user.save()).to.not.be.rejected;
     });
 
 });
