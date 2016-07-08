@@ -71,7 +71,15 @@ function handleError(res, statusCode) {
   };
 }
 
+function validationError(res, statusCode) {
+  statusCode = statusCode || 422;
+  return function(err) {
+    return res.status(statusCode).json(err);
+  }
+}
+
 export {
+  validationError,
   handleError,
   handleEntityNotFound,
   removeEntity,

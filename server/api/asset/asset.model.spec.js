@@ -1,19 +1,19 @@
 'use strict';
 
-import { Asset } from '../../config/db.conf.js';
+import { Asset, Type } from '../../config/db.conf.js';
 import { expect } from 'chai';
 
 const genAsset = () => {
-    asset = Asset.build({
-        name: 'Kia Sportage',
-        assetTypeId: 1,
-        parameters: {
-          width: 200,
-          height: 120,
-          length: 350
-        }
-    });
-    return asset;
+  asset = Asset.build({
+    name: 'Kia Sportage',
+    assetTypeId: 1,
+    parameters: {
+      width: 200,
+      height: 120,
+      length: 350
+    }
+  });
+  return asset;
 };
 
 let asset;

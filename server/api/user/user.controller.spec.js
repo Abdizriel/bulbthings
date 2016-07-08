@@ -54,9 +54,21 @@ describe('User API:', function() {
     });
 
     it('should respond with the newly created user', function() {
+      expect(newUser).to.be.instanceOf(Object);
+      expect(newUser).ownProperty('_id');
+      expect(newUser._id).to.not.be.undefined;
+      expect(newUser._id).to.not.be.null;
+      expect(newUser).ownProperty('firstName');
       expect(newUser.firstName).to.equal('John');
+      expect(newUser).ownProperty('lastName');
       expect(newUser.lastName).to.equal('Doe');
+      expect(newUser).ownProperty('email');
       expect(newUser.email).to.equal('john.doe@example.com');
+      expect(newUser).ownProperty('createdAt');
+      expect(newUser.createdAt).to.not.be.undefined;
+      expect(newUser.createdAt).to.not.be.null;
+      expect(newUser).ownProperty('updatedAt');
+      expect(newUser.updatedAt).to.be.null;
     });
 
   });
@@ -84,9 +96,21 @@ describe('User API:', function() {
     });
 
     it('should respond with the requested user', function() {
+      expect(user).to.be.instanceOf(Object);
+      expect(user).ownProperty('_id');
+      expect(user._id).to.not.be.undefined;
+      expect(user._id).to.not.be.null;
+      expect(user).ownProperty('firstName');
       expect(user.firstName).to.equal('John');
+      expect(user).ownProperty('lastName');
       expect(user.lastName).to.equal('Doe');
+      expect(user).ownProperty('email');
       expect(user.email).to.equal('john.doe@example.com');
+      expect(user).ownProperty('createdAt');
+      expect(user.createdAt).to.not.be.undefined;
+      expect(user.createdAt).to.not.be.null;
+      expect(user).ownProperty('updatedAt');
+      expect(user.updatedAt).to.be.null;
     });
 
   });
@@ -119,9 +143,22 @@ describe('User API:', function() {
     });
 
     it('should respond with the updated user', function() {
+      expect(updatedUser).to.be.instanceOf(Object);
+      expect(updatedUser).ownProperty('_id');
+      expect(updatedUser._id).to.not.be.undefined;
+      expect(updatedUser._id).to.not.be.null;
+      expect(updatedUser).ownProperty('firstName');
       expect(updatedUser.firstName).to.equal('Johny');
+      expect(updatedUser).ownProperty('lastName');
       expect(updatedUser.lastName).to.equal('Bravo');
+      expect(updatedUser).ownProperty('email');
       expect(updatedUser.email).to.equal('johny.bravo@example.com');
+      expect(updatedUser).ownProperty('createdAt');
+      expect(updatedUser.createdAt).to.not.be.undefined;
+      expect(updatedUser.createdAt).to.not.be.null;
+      expect(updatedUser).ownProperty('updatedAt');
+      expect(updatedUser.updatedAt).to.not.be.undefined;
+      expect(updatedUser.updatedAt).to.not.be.null;
     });
 
   });
