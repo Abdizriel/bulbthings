@@ -12,9 +12,9 @@ const routerStub = {
 
 describe('Index API Router:', () => {
 
-  describe('GET /api/users', () => {
+  describe('GET /api/assets', () => {
 
-    it('should verify route to user.controller.index', () => {
+    it('should verify route to asset.controller.index', () => {
       expect(routerStub.get
         .withArgs('/', 'indexCtrl.index')
       ).to.have.been.calledOnce;
@@ -22,9 +22,9 @@ describe('Index API Router:', () => {
 
   });
 
-  describe('POST /api/users', () => {
+  describe('POST /api/assets', () => {
 
-    it('should route to user.controller.create', () => {
+    it('should route to asset.controller.create', () => {
     expect(routerStub.post
       .withArgs('/', 'indexCtrl.create')
     ).to.have.been.calledOnce;
@@ -32,9 +32,9 @@ describe('Index API Router:', () => {
 
   });
 
-  describe('DELETE /api/users/:id', () => {
+  describe('DELETE /api/assets/:id', () => {
 
-    it('should verify route to user.controller.destroy', () => {
+    it('should verify route to asset.controller.destroy', () => {
       expect(routerStub.delete
         .withArgs('/:id', 'indexCtrl.destroy')
       ).to.have.been.calledOnce;
@@ -42,9 +42,9 @@ describe('Index API Router:', () => {
 
   });
 
-  describe('PUT /api/users/:id', () => {
+  describe('PUT /api/assets/:id', () => {
 
-    it('should verify route to user.controller.update', () => {
+    it('should verify route to asset.controller.update', () => {
       expect(routerStub.put
         .withArgs('/:id', 'indexCtrl.update')
       ).to.have.been.calledOnce;
@@ -52,9 +52,9 @@ describe('Index API Router:', () => {
 
   });
 
-  describe('GET /api/users/:id', () => {
+  describe('GET /api/assets/:id', () => {
 
-    it('should verify route to user.controller.show', () => {
+    it('should verify route to asset.controller.show', () => {
       expect(routerStub.get
         .withArgs('/:id', 'indexCtrl.show')
       ).to.have.been.calledOnce;
