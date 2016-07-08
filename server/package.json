@@ -1,15 +1,15 @@
 {
-  "name": "user-service",
+  "name": "bulbthings-server",
   "version": "1.0.0",
-  "description": "BulbThings User Service",
+  "description": "BulbThings Server",
   "main": "dist/index.js",
   "scripts": {
-    "start": "pm2 start dist/index.js -i 4 --name=\"user-microservice\" --watch",
-    "dev": "nodemon server/index.js --exec babel-node --presets es2015,stage-0",
-    "build": "babel server -d dist && cp package.json dist/package.json && cp Procfile dist/Procfile",
-    "test": "mocha --compilers js:babel-register --reporter spec server/api/**/*.spec.js",
-    "coverage": "istanbul cover _mocha -- server/api/**/*.spec.js --compilers js:babel-register",
-    "coveralls": "istanbul cover _mocha -- server/api/**/*.spec.js --compilers js:babel-register --report lcovonly && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "start": "pm2 start ./dist/index.js -i 4 --name=\"api\" --watch",
+    "dev": "nodemon ./index.js --exec babel-node --presets es2015,stage-0",
+    "build": "babel ./ -d dist --ignore *.spec.js, ./node_modules && cp package.json ./dist/package.json && cp Procfile ./dist/Procfile",
+    "test": "mocha --compilers js:babel-register --reporter spec ./api/**/*.spec.js",
+    "coverage": "istanbul cover _mocha -- ./api/**/*.spec.js --compilers js:babel-register",
+    "coveralls": "istanbul cover _mocha -- ./api/**/*.spec.js --compilers js:babel-register --report lcovonly && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "author": "Marcin Mrotek <kontakt@marcinmrotek.pl>",
   "license": "MIT",

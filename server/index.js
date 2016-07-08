@@ -14,25 +14,25 @@ import express from 'express';
  * @description Configuration object
  * @param config
  */
-import config from 'config/env';
+import config from './config/env';
 
 /**
  * @description Database config class
  * @param DBConfig
  */
-import SequalizeORM from 'config/db.conf.js';
+import SequalizeORM from './config/db.conf.js';
 
 /**
  * @description Routes config class
  * @param Routes
  */
-import Routes from 'config/routes.conf.js';
+import Routes from './config/routes.conf.js';
 
 /**
  * @description IApplication config class
  * @param Routes
  */
-import ApplicationConfig from 'config/app.conf.js';
+import ApplicationConfig from './config/app.conf.js';
 
 /**
  * @description Create application with Express Framework
