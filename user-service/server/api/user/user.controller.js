@@ -130,8 +130,8 @@ function create(req, res) {
 /**
  * @function update
  * @description Function that update user by provided id in url and updated data in request body
- * @param {Request} req - Express Framework Request Object
- * @param {Response} res - Express Framework Response Object
+ * @param {Object} req - Express Framework Request Object
+ * @param {Object} res - Express Framework Response Object
  */
 function update(req, res) {
   if (req.body._id) {
