@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     name: DataTypes.STRING,
-    attributes: DataTypes.ARRAY(DataTypes.STRING),
+    attrs: DataTypes.ARRAY(DataTypes.STRING),
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         return {
           'id': this._id,
           'name': this.name,
-          'attributes': this.attributes
+          'attributes': this.attrs
         };
       }
     },

@@ -10,7 +10,7 @@ let db = {
 
 // Database Models
 let User = db.sequelize.import('../api/user/user.model');
-let Asset = db.sequelize.import('../api/user/asset.model');
+let Asset = db.sequelize.import('../api/asset/asset.model');
 let AssetType = db.sequelize.import('../api/asset-type/asset-type.model');
 let Allocation = db.sequelize.import('../api/allocation/allocation.model');
 
