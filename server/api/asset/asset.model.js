@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     name: DataTypes.STRING,
+    parameters: DataTypes.JSON,
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
@@ -25,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
       asset: function() {
         return {
           'id': this._id,
-          'name': this.name
+          'name': this.name,
+          'parameters': this.parameters
         };
       }
     },

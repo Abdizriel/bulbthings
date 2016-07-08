@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     name: DataTypes.STRING,
+    attributes: DataTypes.ARRAY(DataTypes.STRING),
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
