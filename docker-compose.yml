@@ -1,22 +1,22 @@
 # NodeJS RESTful API Microservices
-user-service1:
-    build: ./user-service
+server1:
+    build: ./server
     links:
         - postgres:postgres
     ports:
         - "9001:9000"
     environment:
         - "NODE_ENV=production"
-user-service2:
-    build: ./user-service
+server2:
+    build: ./server
     links:
         - postgres:postgres
     ports:
         - "9002:9000"
     environment:
         - "NODE_ENV=production"
-user-service3:
-    build: ./user-service
+server3:
+    build: ./server
     links:
         - postgres:postgres
     ports:
