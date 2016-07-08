@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    userId: DataTypes.INTEGER,
+    allocationRange: DataTypes.RANGE,
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       asset: function() {
         return {
           'id': this._id,
-          'name': this.name
+          'allocationRange': this.allocationRange
         };
       }
     },
