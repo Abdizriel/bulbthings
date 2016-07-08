@@ -9,8 +9,12 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    allocationRange: {
-      type: DataTypes.RANGE,
+    allocatedFrom: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    allocatedTo: {
+      type: DataTypes.DATE,
       allowNull: false
     },
     AssetId: {

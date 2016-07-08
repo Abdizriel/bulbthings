@@ -16,7 +16,14 @@ import { Asset } from '../../config/db.conf.js';
 /**
  * @description API Response Utils
  */
-import { validationError, handleError, handleEntityNotFound, removeEntity, saveUpdates, respondWithResult } from '../utils';
+import {
+  validationError,
+  handleError,
+  handleEntityNotFound,
+  removeEntity,
+  saveUpdates,
+  respondWithResult
+} from '../utils';
 
 /**
  * @function index

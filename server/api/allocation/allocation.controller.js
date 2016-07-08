@@ -15,7 +15,14 @@ import { Allocation } from '../../config/db.conf.js';
 /**
  * @description API Response Utils
  */
-import { handleError, handleEntityNotFound, removeEntity, saveUpdates, respondWithResult } from '../utils';
+import {
+  validationError,
+  handleError,
+  handleEntityNotFound,
+  removeEntity,
+  saveUpdates,
+  respondWithResult
+} from '../utils';
 
 /**
  * @function index
@@ -29,14 +36,24 @@ function index(req, res) {
   };
 
   if (req.query) {
-    if (req.query.hasOwnProperty('asset')) query.where['assetId'] = req.query.asset;
-    if (req.query.hasOwnProperty('user')) query.where['userId'] = req.query.user;
+
+    // Search by AssetId
+    if (req.query.hasOwnProperty('AssetId')) query.where['AssetId'] = req.query.AssetId;
+
+    // Search by UserId
+    if (req.query.hasOwnProperty('UserId')) query.where['UserId'] = req.query.UserId;
+
+    // Search by allocated asset
     if (req.query.hasOwnProperty('allocated') && req.query.allocated) {
-      const queryTime = new Date();
+      query.where['allocatedFrom'] = { $gte: new Date() };
+      query.where['allocatedTo'] = { $lte: new Date() };
     }
+
+    console.log(req.query.allocated)
+
   }
 
-  return Allocation.findAll()
+  return Allocation.findAll(query)
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
@@ -48,9 +65,27 @@ function index(req, res) {
  * @param {Object} res - Express Framework Response Object
  */
 function create(req, res) {
-  return Allocation.create(req.body)
+  const {
+    AssetId,
+    allocatedFrom,
+    allocatedTo
+  } = req.body;
+
+  Allocation.findOne({
+    where: {
+      AssetId,
+      allocatedFrom: { $lte: new Date(allocatedTo) },
+      allocatedTo: { $gte: new Date(allocatedFrom) }
+    }
+  })
+    .then(allocation => {
+      if(!allocation) {
+        return Allocation.create(req.body);
+      }
+      return Promise.reject('Asset is allocated in that time');
+    })
     .then(respondWithResult(res, 201))
-    .catch(handleError(res));
+    .catch(validationError(res));
 }
 
 /**
@@ -63,15 +98,25 @@ function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
+
+  const {
+    AssetId,
+    allocatedFrom,
+    allocatedTo
+  } = req.body;
+
   return Allocation.find({
     where: {
-      _id: req.params.id
+      AssetId,
+      _id: req.params.id,
+      allocatedFrom: { $lte: new Date(allocatedTo) },
+      allocatedTo: { $gte: new Date(allocatedFrom) }
     }
   })
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(respondWithResult(res))
-    .catch(handleError(res));
+    .catch(validationError(res));
 }
 
 /**

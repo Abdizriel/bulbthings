@@ -16,7 +16,14 @@ import { User } from '../../config/db.conf';
 /**
  * @description API Response Utils
  */
-import { handleError, handleEntityNotFound, removeEntity, saveUpdates, respondWithResult } from '../utils';
+import {
+  validationError,
+  handleError,
+  handleEntityNotFound,
+  removeEntity,
+  saveUpdates,
+  respondWithResult
+} from '../utils';
 
 /**
  * @function index
@@ -56,7 +63,7 @@ function show(req, res) {
 function create(req, res) {
   return User.create(req.body)
     .then(respondWithResult(res, 201))
-    .catch(handleError(res));
+    .catch(validationError(res));
 }
 
 /**
@@ -77,7 +84,7 @@ function update(req, res) {
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(respondWithResult(res))
-    .catch(handleError(res));
+    .catch(validationError(res));
 }
 
 /**
