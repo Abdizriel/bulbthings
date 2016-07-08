@@ -52,7 +52,7 @@ describe('Asset API:', () => {
     });
 
     it('should respond with the newly created asset', () => {
-      expect(newAsset.name).to.equal('i21.5-inch iMac with Retina 4K display');
+      expect(newAsset.name).to.equal('21.5-inch iMac with Retina 4K display');
     });
 
   });

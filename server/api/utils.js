@@ -71,7 +71,7 @@ function handleError(res, statusCode) {
   };
 }
 
-export default {
+export {
   handleError,
   handleEntityNotFound,
   removeEntity,

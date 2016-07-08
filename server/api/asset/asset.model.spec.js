@@ -45,12 +45,12 @@ describe('Asset Model', () => {
 
     it('should fail when saving asset with unknown asset type', () => {
         asset.assetTypeId = 666;
-        return expect(user.save()).to.be.rejected;
+        return expect(asset.save()).to.be.rejected;
     });
 
     it('should save asset with unknown parameters', () => {
         asset.parameters['model'] = 'Kia';
-        return expect(user.save()).to.not.be.rejected;
+        return expect(asset.save()).to.not.be.rejected;
     });
 
 });

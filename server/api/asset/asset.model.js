@@ -38,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     hooks: {
       afterUpdate: user => {
         user.updatedAt = new Date();
+        user.save();
       }
     }
   });

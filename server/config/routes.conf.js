@@ -1,6 +1,5 @@
 import UserRoutes from '../api/user';
 import AssetRoutes from '../api/asset';
-import AssetTypeRoutes from '../api/asset-type';
 import AllocationRoutes from '../api/allocation';
 
 export default class Routes {
@@ -9,7 +8,6 @@ export default class Routes {
 
       UserRoutes.init(router);
       AssetRoutes.init(router);
-      AssetTypeRoutes.init(router);
       AllocationRoutes.init(router);
 
       router.route('/')
