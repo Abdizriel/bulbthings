@@ -88,7 +88,7 @@ function handleError(res, statusCode) {
 
 /**
  * @function index
- * @description Function that returns all services from Service Data Access Object
+ * @description Function that returns all assets
  * @param {Object} req - Express Framework Request Object
  * @param {Object} res - Express Framework Response Object
  */
@@ -100,8 +100,7 @@ function index(req, res) {
 
 /**
  * @function show
- * @description Function that returns single service from Service Data Access Object
- * by id provided in url
+ * @description Function that returns single asset by id provided in url
  * @param {Object} req - Express Framework Request Object
  * @param {Object} res - Express Framework Response Object
  */
@@ -118,8 +117,7 @@ function show(req, res) {
 
 /**
  * @function create
- * @description Function that create service through Service Data Access Object
- * by provided request body
+ * @description Function that create asset by provided request body
  * @param {Object} req - Express Framework Request Object
  * @param {Object} res - Express Framework Response Object
  */
@@ -131,10 +129,9 @@ function create(req, res) {
 
 /**
  * @function update
- * @description Function that update service through Service Data Access Object
- * by provided id in url and updated data in request body
- * @param {Request} req - Express Framework Request Object
- * @param {Response} res - Express Framework Response Object
+ * @description Function that update asset by provided id in url and updated data in request body
+ * @param {Object} req - Express Framework Request Object
+ * @param {Object} res - Express Framework Response Object
  */
 function update(req, res) {
   if (req.body._id) {
@@ -153,8 +150,7 @@ function update(req, res) {
 
 /**
  * @function destroy
- * @description Function that delete service through Service Data Access Object
- * by id provided in url
+ * @description Function that delete asset by id provided in url
  * @param {Object} req - Express Framework Request Object
  * @param {Object} res - Express Framework Response Object
  */

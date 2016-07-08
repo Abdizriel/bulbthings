@@ -6,12 +6,12 @@ import { expect } from 'chai';
 
 let newAsset;
 
-describe('Asset API:', function() {
+describe('Asset API:', () => {
 
-  describe('GET /api/assets', function() {
+  describe('GET /api/assets', () => {
     let assets;
 
-    beforeEach(function(done) {
+    beforeEach(done => {
       request(app)
         .get('/api/assets')
         .set('apikey', '199b29d2-5d94-4ff4-952a-e9fb0d0de968')
@@ -26,14 +26,14 @@ describe('Asset API:', function() {
         });
     });
 
-    it('should respond with JSON array', function() {
+    it('should respond with JSON array', () => {
       expect(assets).to.be.instanceOf(Array);
     });
 
   });
 
-  describe('POST /api/assets', function() {
-    beforeEach(function(done) {
+  describe('POST /api/assets', () => {
+    beforeEach(done => {
       request(app)
         .post('/api/assets')
         .set('apikey', '199b29d2-5d94-4ff4-952a-e9fb0d0de968')
@@ -51,16 +51,16 @@ describe('Asset API:', function() {
         });
     });
 
-    it('should respond with the newly created asset', function() {
+    it('should respond with the newly created asset', () => {
       expect(newAsset.name).to.equal('i21.5-inch iMac with Retina 4K display');
     });
 
   });
 
-  describe('GET /api/assets/:id', function() {
+  describe('GET /api/assets/:id', () => {
     let asset;
 
-    beforeEach(function(done) {
+    beforeEach(done => {
       request(app)
         .get('/api/assets/' + newAsset._id)
         .set('apikey', '199b29d2-5d94-4ff4-952a-e9fb0d0de968')
@@ -75,20 +75,20 @@ describe('Asset API:', function() {
         });
     });
 
-    afterEach(function() {
+    afterEach(() => {
       asset = {};
     });
 
-    it('should respond with the requested asset', function() {
+    it('should respond with the requested asset', () => {
       expect(asset.name).to.equal('21.5-inch iMac with Retina 4K display');
     });
 
   });
 
-  describe('PUT /api/assets/:id', function() {
+  describe('PUT /api/assets/:id', () => {
     let updatedAsset;
 
-    beforeEach(function(done) {
+    beforeEach(done => {
       request(app)
         .put('/api/assets/' + newAsset._id)
         .set('apikey', '199b29d2-5d94-4ff4-952a-e9fb0d0de968')
@@ -97,7 +97,7 @@ describe('Asset API:', function() {
         })
         .expect(200)
         .expect('Content-Type', /json/)
-        .end(function(err, res) {
+        .end((err, res) => {
           if (err) {
             return done(err);
           }
@@ -106,19 +106,19 @@ describe('Asset API:', function() {
         });
     });
 
-    afterEach(function() {
+    afterEach(() => {
       updatedAsset = {};
     });
 
-    it('should respond with the updated asset', function() {
+    it('should respond with the updated asset', () => {
       expect(updatedAsset.name).to.equal('27-inch iMac with Retina 5K display');
     });
 
   });
 
-  describe('DELETE /api/assets/:id', function() {
+  describe('DELETE /api/assets/:id', () => {
 
-    it('should respond with 204 on successful removal', function(done) {
+    it('should respond with 204 on successful removal', done => {
       request(app)
         .delete('/api/assets/' + newAsset._id)
         .set('apikey', '199b29d2-5d94-4ff4-952a-e9fb0d0de968')
@@ -131,7 +131,7 @@ describe('Asset API:', function() {
         });
     });
 
-    it('should respond with 404 when asset does not exist', function(done) {
+    it('should respond with 404 when asset does not exist', done => {
       request(app)
         .delete('/api/assets/' + newAsset._id)
         .set('apikey', '199b29d2-5d94-4ff4-952a-e9fb0d0de968')
