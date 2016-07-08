@@ -24,6 +24,18 @@ import { handleError, handleEntityNotFound, removeEntity, saveUpdates, respondWi
  * @param {Object} res - Express Framework Response Object
  */
 function index(req, res) {
+  let query = {
+    where: {
+
+    }
+  };
+
+  if (req.query) {
+    if (req.query.hasOwnProperty('asset')) query.where['assetId'] = req.query.asset;
+    if (req.query.hasOwnProperty('user')) query.where['userId'] = req.query.user;
+    if (req.query.hasOwnProperty('allocated')) query.where['allocated'] = req.query.allocated;
+  }
+
   return Allocation.findAll()
     .then(respondWithResult(res))
     .catch(handleError(res));
