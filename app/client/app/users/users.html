@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <h1>{{vm.updatingUser ? "Update" : "Add"}} user</h1>
+      <formly-form model="vm.user" fields="vm.userFields">
+        <button type="submit" class="btn btn-default" ng-click="vm.submitForm(vm.user)">Submit</button>
+      </formly-form>
+    </div>
+    <div class="col-md-9">
+      <h1>Users List</h1>
+      <table st-table="rowCollection" class="table table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="row in vm.usersData">
+            <td>{{row._id}}</td>
+            <td>{{row.firstName}}</td>
+            <td>{{row.lastName}}</td>
+            <td>{{row.email}}</td>
+            <td>
+              <button type="button" ng-click="vm.removeUser(row._id)" class="btn btn-sm btn-danger">
+                Delete
+              </button>
+              <button type="button" ng-click="vm.updateUser(row)" class="btn btn-sm btn-success">
+                Update
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
