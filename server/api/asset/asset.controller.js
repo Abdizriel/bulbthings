@@ -11,7 +11,7 @@
  * @description Asset Sequalize Schema
  * @param Asset
  */
-import { Asset } from '../../config/db.conf.js';
+import { Asset, Type } from '../../config/db.conf.js';
 
 /**
  * @description API Response Utils
@@ -61,9 +61,35 @@ function show(req, res) {
  * @param {Object} res - Express Framework Response Object
  */
 function create(req, res) {
-  return Asset.create(req.body)
+  return Type.findById(req.body.TypeId)
+    .then(validateCreateParameters(req))
+    .then(() => Asset.create(req.body))
     .then(respondWithResult(res, 201))
     .catch(validationError(res));
+}
+
+/**
+ * @function validateCreateParameters
+ * @description Function that validate if all type attributes where provided
+ * @param {Object} req - Express Framework Request Object
+ */
+function validateCreateParameters(req) {
+  return function(entity) {
+    if (!entity) return Promise.reject('Type not exist');
+    if (!req.body.parameters) return Promise.reject('Parameters are note provided');
+
+    const typeAttributes = entity.attrs;
+    const parametersKeys = Object.keys(req.body.parameters);
+    const missingParameters = typeAttributes.filter(attr => {
+      return parametersKeys.indexOf(attr) == -1;
+    });
+
+    if(missingParameters.length) {
+      return Promise.reject(`Not all parameters are provided: ${ missingParameters.join(', ')}`);
+    }
+
+    return null;
+  }
 }
 
 /**
@@ -82,9 +108,41 @@ function update(req, res) {
     }
   })
     .then(handleEntityNotFound(res))
+    .then(validateUpdateParameters(req))
     .then(saveUpdates(req.body))
     .then(respondWithResult(res))
     .catch(validationError(res));
+}
+
+/**
+ * @function validateCreateParameters
+ * @description Function that validate if all type attributes where provided
+ * @param {Object} req - Express Framework Request Object
+ */
+function validateUpdateParameters(req) {
+  return function(entity) {
+    // if (req.body.parameters) {
+    //   const typeId = req.body.TypeId || entity.TypeId;
+    //   Type.findById(typeId)
+    //     .then(type => {
+    //       if (!type) return Promise.reject('Type not exist');
+    //       const typeAttributes = type.attrs;
+    //       const parametersKeys = Object.keys(req.body.parameters);
+    //     })
+    // }
+    // console.log(entity.parameters);
+    // console.log(req.body.parameters);
+    //
+    // const typeAttributes = entity.attrs;
+    // const parametersKeys = Object.keys(req.body.parameters);
+    // const missingParameters = typeAttributes.filter(attr => {
+    //   return parametersKeys.indexOf(attr) == -1;
+    // });
+    //
+    // if(missingParameters) return Promise.reject(`Not all parameters are provided: ${ missingParameters.join(', ')}`);
+
+    return entity;
+  }
 }
 
 /**
