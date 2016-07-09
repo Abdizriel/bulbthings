@@ -9,7 +9,7 @@ import AllocationEvents from './allocation.events';
 // Model events to emit
 const events = ['save', 'remove'];
 
-export function register(socket) {
+export default function register(socket) {
   // Bind model events to socket events
   for (var i = 0, eventsLength = events.length; i < eventsLength; i++) {
     var event = events[i];

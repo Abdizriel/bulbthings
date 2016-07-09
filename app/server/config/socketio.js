@@ -4,10 +4,10 @@
 'use strict';
 
 import config from './environment';
-import UserSockets from '../api/user/user.socket'
-import AssetSockets from '../api/asset/asset.socket'
-import TypeSockets from '../api/type/type.socket'
-import AllocationSockets from '../api/allocation/allocation.socket'
+import UserSockets from '../api/user/user.socket';
+import AssetSockets from '../api/asset/asset.socket';
+import TypeSockets from '../api/type/type.socket';
+import AllocationSockets from '../api/allocation/allocation.socket';
 
 // When the user disconnects.. perform this
 function onDisconnect(socket) {
@@ -21,14 +21,14 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
-  UserSockets.register(socket);
-  AllocationSockets.register(socket);
-  AssetSockets.register(socket);
-  TypeSockets.register(socket);
+  UserSockets(socket);
+  AllocationSockets(socket);
+  AssetSockets(socket);
+  TypeSockets(socket);
 
 }
 
-export default function(socketio) {
+function initSocket (socketio) {
   // socket.io (v1.x.x) is powered by debug.
   // In order to see all the debug output, set DEBUG (in server/config/local.env.js) to including the desired scope.
   //
@@ -64,4 +64,8 @@ export default function(socketio) {
     onConnect(socket);
     socket.log('CONNECTED');
   });
+}
+
+export {
+  initSocket
 }

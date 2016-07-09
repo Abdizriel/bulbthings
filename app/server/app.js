@@ -8,6 +8,7 @@ import express from 'express';
 import sqldb from './sqldb';
 import config from './config/environment';
 import http from 'http';
+import { initSocket } from './config/socketio';
 
 // Populate databases with sample data
 if (config.seedDB) { require('./config/seed'); }
@@ -19,7 +20,7 @@ var socketio = require('socket.io')(server, {
   serveClient: config.env !== 'production',
   path: '/socket.io-client'
 });
-require('./config/socketio')(socketio);
+initSocket(socketio);
 require('./config/express').default(app);
 require('./routes').default(app);
 
