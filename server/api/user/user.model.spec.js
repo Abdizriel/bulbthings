@@ -38,18 +38,36 @@ describe('User Model', () => {
             })).to.be.rejected;
     });
 
+    describe('#firstName', () => {
+
+        it('should fail when saving without an firstName', () => {
+            user.firstName = '';
+            return expect(user.save()).to.be.rejected;
+        });
+
+    });
+
+    describe('#lastName', () => {
+
+        it('should fail when saving without an lastName', () => {
+            user.lastName = '';
+            return expect(user.save()).to.be.rejected;
+        });
+
+    });
+
     describe('#email', () => {
-        
+
         it('should fail when saving without an email', () => {
             user.email = '';
             return expect(user.save()).to.be.rejected;
         });
-        
+
         it('should fail when saving with wrong email', () => {
             user.email = 'test';
             return expect(user.save()).to.be.rejected;
         });
-        
+
     });
 
 });

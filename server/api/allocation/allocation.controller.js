@@ -49,8 +49,6 @@ function index(req, res) {
       query.where['allocatedTo'] = { $lte: new Date() };
     }
 
-    console.log(req.query.allocated)
-
   }
 
   return Allocation.findAll(query)
@@ -65,25 +63,7 @@ function index(req, res) {
  * @param {Object} res - Express Framework Response Object
  */
 function create(req, res) {
-  const {
-    AssetId,
-    allocatedFrom,
-    allocatedTo
-  } = req.body;
-
-  Allocation.findOne({
-    where: {
-      AssetId,
-      allocatedFrom: { $lte: new Date(allocatedTo) },
-      allocatedTo: { $gte: new Date(allocatedFrom) }
-    }
-  })
-    .then(allocation => {
-      if(!allocation) {
-        return Allocation.create(req.body);
-      }
-      return Promise.reject('Asset is allocated in that time');
-    })
+  Allocation.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(validationError(res));
 }
@@ -99,18 +79,9 @@ function update(req, res) {
     delete req.body._id;
   }
 
-  const {
-    AssetId,
-    allocatedFrom,
-    allocatedTo
-  } = req.body;
-
   return Allocation.find({
     where: {
-      AssetId,
-      _id: req.params.id,
-      allocatedFrom: { $lte: new Date(allocatedTo) },
-      allocatedTo: { $gte: new Date(allocatedFrom) }
+      _id: req.params.id
     }
   })
     .then(handleEntityNotFound(res))

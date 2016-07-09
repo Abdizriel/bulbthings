@@ -4,6 +4,7 @@ import app from '../..';
 import request from 'supertest';
 import { expect } from 'chai';
 
+const apikey = '199b29d2-5d94-4ff4-952a-e9fb0d0de968';
 let newAllocation;
 
 describe('Allocation API:', () => {
@@ -14,7 +15,7 @@ describe('Allocation API:', () => {
     beforeEach(done => {
       request(app)
         .get('/api/allocations')
-        .set('apikey', '199b29d2-5d94-4ff4-952a-e9fb0d0de968')
+        .set('apikey', apikey)
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
@@ -52,7 +53,7 @@ describe('Allocation API:', () => {
     });
 
     it('should respond with the newly created allocation', () => {
-      expect(newAllocation.name).to.equal('i21.5-inch iMac with Retina 4K display');
+      expect(newAllocation.UserId).to.equal('i21.5-inch iMac with Retina 4K display');
     });
 
   });
@@ -63,7 +64,7 @@ describe('Allocation API:', () => {
     beforeEach(done => {
       request(app)
         .put('/api/allocations/' + newAllocation._id)
-        .set('apikey', '199b29d2-5d94-4ff4-952a-e9fb0d0de968')
+        .set('apikey', apikey)
         .send({
           name: '27-inch iMac with Retina 5K display'
         })
@@ -93,7 +94,7 @@ describe('Allocation API:', () => {
     it('should respond with 204 on successful removal', done => {
       request(app)
         .delete('/api/allocations/' + newAllocation._id)
-        .set('apikey', '199b29d2-5d94-4ff4-952a-e9fb0d0de968')
+        .set('apikey', apikey)
         .expect(204)
         .end((err, res) => {
           if (err) {
@@ -106,7 +107,7 @@ describe('Allocation API:', () => {
     it('should respond with 404 when allocation does not exist', done => {
       request(app)
         .delete('/api/allocations/' + newAllocation._id)
-        .set('apikey', '199b29d2-5d94-4ff4-952a-e9fb0d0de968')
+        .set('apikey', apikey)
         .expect(404)
         .end((err, res) => {
           if (err) {

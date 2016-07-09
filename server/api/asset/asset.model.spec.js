@@ -1,12 +1,12 @@
 'use strict';
 
-import { Asset, Type } from '../../config/db.conf.js';
+import { Asset } from '../../config/db.conf.js';
 import { expect } from 'chai';
 
 const genAsset = () => {
   asset = Asset.build({
     name: 'Kia Sportage',
-    assetTypeId: 1,
+    TypeId: 1,
     parameters: {
       width: 200,
       height: 120,
@@ -43,14 +43,69 @@ describe('Asset Model', () => {
             })).to.be.rejected;
     });
 
-    it('should fail when saving asset with unknown asset type', () => {
-        asset.assetTypeId = 666;
+    describe('#name', () => {
+
+      it('should fail when saving asset without name', () => {
+        delete asset.name;
         return expect(asset.save()).to.be.rejected;
+      });
+
+      it('should fail when saving asset without unique name', () => {
+        return expect(asset.save()
+          .then(() => {
+            let assetDup = genAsset();
+            assetDup.name = asset.name;
+            return assetDup.save();
+          })).to.be.rejected;
+      });
+
+      it('should pass when saving asset with unique name', () => {
+        return expect(asset.save()
+          .then(() => {
+            let assetDup = genAsset();
+            assetDup.name = 'Unique name';
+            return assetDup.save();
+          })).to.not.be.rejected;
+      });
+
     });
 
-    it('should save asset with unknown parameters', () => {
-        asset.parameters['model'] = 'Kia';
+    describe('#parameters', () => {
+
+      it('should fail when saving asset without parameters', () => {
+        delete asset.parameters;
+        return expect(asset.save()).to.be.rejected;
+      });
+
+      it('should fail when saving asset with parameters not object type', () => {
+        asset.parameters = 'String';
+        return expect(asset.save()).to.be.rejected;
+      });
+
+      it('should pass when saving asset with parameters object type', () => {
+        asset.parameters = {};
         return expect(asset.save()).to.not.be.rejected;
+      });
+
+    });
+
+    describe('#TypeId', () => {
+
+      it('should fail when saving asset without TypeId', () => {
+        delete asset.TypeId;
+        return expect(asset.save()).to.not.be.rejected;
+      });
+
+      it('should fail when saving asset with unknown TypeId', () => {
+        asset.TypeId = 666;
+        return expect(asset.save()).to.be.rejected;
+      });
+
+      it('should fail when saving asset with known TypeId', () => {
+        asset.TypeId = 1;
+        return expect(asset.save()).to.not.be.rejected;
+      });
+
     });
 
 });

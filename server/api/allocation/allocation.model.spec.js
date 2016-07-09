@@ -4,37 +4,132 @@ import { Allocation } from '../../config/db.conf.js';
 import { expect } from 'chai';
 
 const genAllocation = () => {
-    allocation = Allocation.build({
-        name: '21.5-inch iMac with Retina 4K display'
-    });
-    return allocation;
+  allocation = Allocation.build({
+    UserId: 1,
+    AssetId: 1,
+    allocatedFrom: new Date('2016-06-08').toISOString(),
+    allocatedTo: new Date('2016-07-08').toISOString()
+  });
+  return allocation;
 };
 
 let allocation;
 
 describe('Allocation Model', () => {
 
-    before(() =>{
-        return Allocation.sync()
-            .then(() => {
-                return Allocation.destroy({ where: {} });
-            });
-    });
-
-    beforeEach(() => {
-        genAllocation();
-    });
-
-    afterEach(() => {
+  before(() =>{
+    return Allocation.sync()
+      .then(() => {
         return Allocation.destroy({ where: {} });
+      });
+  });
+
+  beforeEach(() => {
+    genAllocation();
+  });
+
+  afterEach(() => {
+    return Allocation.destroy({ where: {} });
+  });
+
+  it('should fail when saving a duplicate allocation', () => {
+    return expect(allocation.save()
+      .then(() => {
+        const allocationDup = genAllocation();
+        return allocationDup.save();
+      })).to.be.rejected;
+  });
+
+  describe('#UserId', () => {
+
+    it('should fail when saving without UserId', () => {
+      delete allocation.UserId;
+      return expect(allocation.save()).to.be.rejected;
     });
 
-    it('should fail when saving a duplicate allocation', () => {
-        return expect(allocation.save()
-            .then(() => {
-                const allocationDup = genAllocation();
-                return allocationDup.save();
-            })).to.be.rejected;
+    it('should fail when saving with wrong UserId', () => {
+      allocation.UserId = 666666;
+      return expect(allocation.save()).to.be.rejected;
     });
+
+    it('should fail when saving with correct UserId', () => {
+      allocation.UserId = 1;
+      return expect(allocation.save()).to.not.be.rejected;
+    });
+
+  });
+
+  describe('#AssetId', () => {
+
+    it('should fail when saving without AssetId', () => {
+      delete allocation.AssetId;
+      return expect(allocation.save()).to.be.rejected;
+    });
+
+    it('should fail when saving with wrong AssetId', () => {
+      allocation.AssetId = 666666;
+      return expect(allocation.save()).to.be.rejected;
+    });
+
+    it('should fail when saving with correct AssetId', () => {
+      allocation.AssetId = 1;
+      return expect(allocation.save()).to.not.be.rejected;
+    });
+
+  });
+
+  describe('#allocatedFrom', () => {
+
+    it('should fail when saving without allocatedFrom', () => {
+      delete allocation.allocatedFrom;
+      return expect(allocation.save()).to.be.rejected;
+    });
+
+    it('should fail when saving with wrong date', () => {
+      allocation.allocatedFrom = "2016-10-45T10:40:37.000Z";
+      return expect(allocation.save()).to.be.rejected;
+    });
+
+    it('should fail when saving with allocatedFrom after allocatedTo', () => {
+      allocation.allocatedFrom = "2016-10-08T10:40:37.000Z";
+      allocation.allocatedTo = "2016-09-08T10:40:37.000Z";
+      return expect(allocation.save()).to.be.rejected;
+    });
+
+    it('should pass when saving with correct allocatedTo', () => {
+      allocation.allocatedTo = 1;
+      allocation.allocatedFrom = "2016-08-08T10:40:37.000Z";
+      allocation.allocatedTo = "2016-09-08T10:40:37.000Z";
+      return expect(allocation.save()).to.not.be.rejected;
+    });
+
+  });
+
+  describe('#allocatedTo', () => {
+
+    it('should fail when saving without allocatedTo', () => {
+      delete allocation.allocatedTo;
+      return expect(allocation.save()).to.be.rejected;
+    });
+
+    it('should fail when saving with wrong date', () => {
+      allocation.allocatedTo = "2016-10-45T10:40:37.000Z";
+      return expect(allocation.save()).to.be.rejected;
+    });
+
+    it('should fail when saving with allocatedTo before allocatedFrom', () => {
+      allocation.allocatedTo = "2016-09-08T10:40:37.000Z";
+      allocation.allocatedFrom = "2016-09-10T10:40:37.000Z";
+      return expect(allocation.save()).to.be.rejected;
+    });
+
+    it('should pass when saving with correct allocatedTo', () => {
+      allocation.allocatedTo = 1;
+      allocation.allocatedFrom = "2016-08-08T10:40:37.000Z";
+      allocation.allocatedTo = "2016-09-08T10:40:37.000Z";
+      return expect(allocation.save()).to.not.be.rejected;
+    });
+
+  });
 
 });
