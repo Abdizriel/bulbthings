@@ -47,9 +47,13 @@ function APIUtilService() {
       returnedError = [{
         message: 'Invalid API key'
       }];
-    } else {
+    } else if (error.data.message) {
       returnedError = [{
         message: error.data.message
+      }];
+    } else {
+      returnedError = [{
+        message: error.data
       }];
     }
     return Promise.reject({ success: false, errors: returnedError });

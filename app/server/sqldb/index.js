@@ -12,7 +12,6 @@ let db = {
   sequelize: new Sequelize(config.sequelize.uri, config.sequelize.options)
 };
 
-// Insert models below
 let User = db.sequelize.import('../api/user/user.model');
 let Asset = db.sequelize.import('../api/asset/asset.model');
 let Type = db.sequelize.import('../api/type/type.model');

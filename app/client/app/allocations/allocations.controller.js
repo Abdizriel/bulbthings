@@ -71,6 +71,22 @@
                 return data;
               });
           }
+        }, {
+          key: 'allocatedFrom',
+          type: 'datepicker',
+          templateOptions: {
+            label: 'From',
+            type: 'text',
+            datepickerPopup: 'dd-MMMM-yyyy'
+          }
+        }, {
+          key: 'allocatedTo',
+          type: 'datepicker',
+          templateOptions: {
+            label: 'To',
+            type: 'text',
+            datepickerPopup: 'dd-MMMM-yyyy'
+          }
         }
       ];
 
@@ -165,6 +181,10 @@
     startUpdate(data) {
       this.updatingAllocation = true;
       this.allocation = data;
+      this.allocation.allocatedFrom = new Date(data.allocatedFrom);
+      this.allocation.allocatedTo = new Date(data.allocatedTo);
+      console.log(data);
+
     }
 
     /**
@@ -182,8 +202,6 @@
      * @function createAllocation
      */
     createAllocation() {
-      this.allocation.attrs = this.getAttributes();
-
       this.AllocationService.createAllocation(this.allocation)
         .then(this.handleFormSuccess.bind(this, 'New allocation was added'))
         .catch(this.handleFormErrors.bind(this));
@@ -194,26 +212,9 @@
      * @function updateAllocation
      */
     updateAllocation() {
-      // Since we can just change name and do not touch attributes
-      // this is safety check to not touch existing array of attributes
-      if(!Array.isArray(this.allocation.attrs)) {
-        this.allocation.attrs = this.getAttributes();
-      }
-
       this.AllocationService.updateAllocation(this.allocation)
         .then(this.handleFormSuccess.bind(this, 'Allocation was updated'))
         .catch(this.handleFormErrors.bind(this));
-    }
-
-    /**
-     * Parse attributes to Array
-     * @function getAttributes
-     * @returns {Array} attrs - Parsed attributes
-     */
-    getAttributes() {
-      let attrs = this.allocation.attrs.split(',');
-      attrs.map(attribute => attribute.trim());
-      return attrs;
     }
 
     /**

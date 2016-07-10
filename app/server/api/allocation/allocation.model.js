@@ -1,7 +1,7 @@
 'use strict';
 
-export default function (sequelize, DataTypes) {
-  const Allocation = sequelize.define('Allocation', {
+module.exports = (sequelize, DataTypes) => {
+  let Allocation = sequelize.define('Allocation', {
 
     _id: {
       type: DataTypes.INTEGER,
@@ -37,34 +37,18 @@ export default function (sequelize, DataTypes) {
     },
     updatedAt: DataTypes.DATE
   }, {
-    /**
-     * Validate Instance
-     */
-    validate: {
-      allocationTime: function() {
-        if (this.allocatedFrom >= this.allocatedTo) {
-          return Promise.reject('allocatedFrom is more or equal allocatedTo');
-        }
-
-        if (this.allocatedTo <= this.allocatedFrom) {
-          return Promise.reject('allocatedTo is more or equal allocatedFrom');
-        }
-
-      }
-    }
-  }, {
 
     /**
      * Virtual Getters
      */
     getterMethods: {
-      /**
-       *
-       */
       allocation: function() {
         return {
           'id': this._id,
-          'allocationRange': this.allocationRange
+          'userId': this.UserId,
+          'assetId': this.AssetId,
+          'from': this.allocatedFrom,
+          'to': this.allocatedTo
         };
       }
     },
@@ -74,6 +58,10 @@ export default function (sequelize, DataTypes) {
      */
     hooks: {
       beforeCreate: value => {
+        if (value.allocatedFrom >= value.allocatedTo) {
+          return Promise.reject('From is later than To');
+        }
+
         return Allocation.findOne({
           where: {
             AssetId: value.AssetId,
@@ -86,6 +74,10 @@ export default function (sequelize, DataTypes) {
           });
       },
       beforeUpdate: value => {
+        if (value.allocatedFrom >= value.allocatedTo) {
+          return Promise.reject('From is later than To');
+        }
+
         return Allocation.find({
           where: {
             AssetId: value.AssetId,
@@ -94,7 +86,19 @@ export default function (sequelize, DataTypes) {
           }
         })
           .then(allocation => {
-            console.log(allocation.allocatedFrom)
+            // Check if asset is modified for the same user
+            if(value.UserId === allocation.UserId) {
+
+              // If asset time is shorted for asset allow that operation
+              if(
+                value.allocatedFrom >= allocation.allocatedFrom
+                  &&
+                value.allocatedTo <= allocation.allocatedTo
+              ) return Promise.resolve();
+              
+            }
+            
+            // Otherwise reject
             if(allocation) return Promise.reject('Asset is allocated in that time');
           });
       },
