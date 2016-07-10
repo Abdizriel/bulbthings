@@ -5,6 +5,7 @@
 
 'use strict';
 import { Type, User, Asset, Allocation } from '../sqldb';
+let type, user, asset, allocation;
 
 userSync()
   .then(() => assetSyncRemove())
@@ -19,18 +20,17 @@ function userSync () {
     })
     .then(() => {
       return User.bulkCreate([{
-        _id: 1,
         firstName: 'Marcin',
         lastName: 'Mrotek',
         email: 'kontakt@marcinmrotek.pl'
       }, {
-        _id: 2,
         firstName: 'Emilia',
         lastName: 'Heller',
         email: 'emkacf@gmail.com'
-      }]);
+      }], {returning: true});
     })
-    .then(() => {
+    .then(users => {
+      user = users;
       console.log('Users was created');
     });
 }
@@ -41,21 +41,19 @@ function typeSync () {
       return Type.destroy({ where: {} });
     })
     .then(() => {
-      Type.bulkCreate([{
-        _id: 1,
+      return Type.bulkCreate([{
         name: 'Car',
         attrs: ['brand', 'model', 'productionYear']
       }, {
-        _id: 2,
         name: 'Phone',
         attrs: ['brand', 'model', 'productionYear']
       }, {
-        _id: 3,
         name: 'Animal',
         attrs: ['race', 'age']
-      }]);
+      }], {returning: true});
     })
-    .then(() => {
+    .then(types => {
+      type = types;
       console.log('Asset Types was created');
     });
 }
@@ -63,9 +61,8 @@ function typeSync () {
 function assetSyncCreate () {
   return Asset.sync()
     .then(() => {
-      Asset.bulkCreate([{
-        _id: 1,
-        TypeId: 1,
+      return Asset.bulkCreate([{
+        TypeId: type[0]._id,
         name: 'Kia Sportage',
         parameters: {
           brand: 'Kia',
@@ -73,8 +70,7 @@ function assetSyncCreate () {
           productionYear: 2016
         }
       }, {
-        _id: 2,
-        TypeId: 1,
+        TypeId: type[0]._id,
         name: 'Hyundai ix35',
         parameters: {
           brand: 'Hyundai',
@@ -82,8 +78,7 @@ function assetSyncCreate () {
           productionYear: 2016
         }
       }, {
-        _id: 3,
-        TypeId: 2,
+        TypeId: type[1]._id,
         name: 'Lumia 820',
         parameters: {
           brand: 'Microsoft',
@@ -91,8 +86,7 @@ function assetSyncCreate () {
           productionYear: 2015
         }
       }, {
-        _id: 4,
-        TypeId: 2,
+        TypeId: type[1]._id,
         name: 'iPhone 6s',
         parameters: {
           brand: 'Apple',
@@ -100,17 +94,17 @@ function assetSyncCreate () {
           productionYear: 2015
         }
       }, {
-        _id: 5,
-        TypeId: 3,
+        TypeId: type[2]._id,
         name: 'Pestka',
         parameters: {
           race: 'Australian Shepard',
           age: 1,
           owner: 'Emilia Heller'
         }
-      }]);
+      }], {returning: true});
     })
-    .then(() => {
+    .then(assets => {
+      asset = assets;
       console.log('Asset was created');
     });
 

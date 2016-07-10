@@ -10,17 +10,22 @@
      * @param {Object} $scope - Application object.
      * @param {Object} socket - Websocket connection.
      * @param {Object} AssetService - Asset API service.
+     * @param {Object} TypeService - Asset Type API service.
      * @param {Object} toastr - Notification directive.
      */
-    constructor($scope, socket, AssetService, toastr) {
+    constructor($scope, socket, AssetService, TypeService, toastr) {
       this.toastr = toastr;
       this.socket = socket;
       this.AssetService = AssetService;
+      this.TypeService = TypeService;
+      this.typesData = [];
+      this.formatedTypes = {};
       this.assetsAsyncData = [];
       this.assetsData = [];
       this.updatingAsset = false;
       this.incorrectParametersFormat = false;
       this.asset = {};
+      // Set Formly Form Fields
       this.assetFields = [
         {
           key: 'name',
@@ -38,12 +43,21 @@
           }
         }, {
           key: 'TypeId',
-          type: 'input',
-          templateOptions: {
-            required: true,
-            type: 'TypeId',
+          type: 'select',
+          templateOptions:{
             label: 'Asset Type',
-            placeholder: 'Select asset type'
+            options: [],
+            valueProp: '_id',
+            labelProp: 'name',
+            required: true,
+            placeholder: 'Select asset type from List'
+          },
+          controller: ($scope, TypeService) => {
+            TypeService.getTypes()
+              .then(data => {
+                $scope.options.templateOptions.options = data;
+                return data;
+              });
           }
         }, {
           key: 'parameters',
@@ -67,12 +81,43 @@
      * @function $onInit
      */
     $onInit() {
-      this.AssetService.getAssets()
+      this.syncAssets()
+        .then(() => this.syncTypes())
+        .catch(this.handleFormErrors.bind(this));
+    }
+
+    /**
+     * Synchronize Asset database in real time
+     * @function syncAssets
+     */
+    syncAssets() {
+      return this.AssetService.getAssets()
         .then(response => {
           this.assetsAsyncData = response;
           this.socket.syncUpdates('asset', this.assetsAsyncData);
         })
-        .catch(this.handleFormErrors.bind(this));
+    }
+
+    /**
+     * Synchronize Asset Types database in real time
+     * @function syncTypes
+     */
+    syncTypes() {
+      return this.TypeService.getTypes()
+        .then(response => {
+          this.typesData = response;
+          this.socket.syncUpdates('type', this.typesData, this.parseTypes());
+        })
+    }
+
+    /**
+     * Parse Asset Types data to nice format for view
+     * @function parseTypes
+     */
+    parseTypes() {
+      this.typesData.map(type => {
+        this.formatedTypes[type._id] = type.name;
+      });
     }
 
     /**
