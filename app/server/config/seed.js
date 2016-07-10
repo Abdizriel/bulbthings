@@ -4,41 +4,135 @@
  */
 
 'use strict';
-import sqldb from '../sqldb';
-// var Thing = sqldb.Thing;
-//
-// Thing.sync()
-//   .then(() => {
-//     return Thing.destroy({ where: {} });
-//   })
-//   .then(() => {
-//     Thing.bulkCreate([{
-//       name: 'Development Tools',
-//       info: 'Integration with popular tools such as Bower, Grunt, Babel, Karma, ' +
-//              'Mocha, JSHint, Node Inspector, Livereload, Protractor, Jade, ' +
-//              'Stylus, Sass, and Less.'
-//     }, {
-//       name: 'Server and Client integration',
-//       info: 'Built with a powerful and fun stack: MongoDB, Express, ' +
-//              'AngularJS, and Node.'
-//     }, {
-//       name: 'Smart Build System',
-//       info: 'Build system ignores `spec` files, allowing you to keep ' +
-//              'tests alongside code. Automatic injection of scripts and ' +
-//              'styles into your index.html'
-//     }, {
-//       name: 'Modular Structure',
-//       info: 'Best practice client and server structures allow for more ' +
-//              'code reusability and maximum scalability'
-//     }, {
-//       name: 'Optimized Build',
-//       info: 'Build process packs up your templates as a single JavaScript ' +
-//              'payload, minifies your scripts/css/images, and rewrites asset ' +
-//              'names for caching.'
-//     }, {
-//       name: 'Deployment Ready',
-//       info: 'Easily deploy your app to Heroku or Openshift with the heroku ' +
-//              'and openshift subgenerators'
-//     }]);
-//   });
-//
+import { Type, User, Asset, Allocation } from '../sqldb';
+
+userSync()
+  .then(() => assetSyncRemove())
+  .then(() => typeSync())
+  .then(() => assetSyncCreate())
+  .then(() => allocationSync());
+
+function userSync () {
+  return User.sync()
+    .then(() => {
+      return User.destroy({ where: {} });
+    })
+    .then(() => {
+      return User.bulkCreate([{
+        _id: 1,
+        firstName: 'Marcin',
+        lastName: 'Mrotek',
+        email: 'kontakt@marcinmrotek.pl'
+      }, {
+        _id: 2,
+        firstName: 'Emilia',
+        lastName: 'Heller',
+        email: 'emkacf@gmail.com'
+      }]);
+    })
+    .then(() => {
+      console.log('Users was created');
+    });
+}
+
+function typeSync () {
+  return Type.sync()
+    .then(() => {
+      return Type.destroy({ where: {} });
+    })
+    .then(() => {
+      Type.bulkCreate([{
+        _id: 1,
+        name: 'car',
+        attrs: ['brand', 'model', 'productionYear']
+      }, {
+        _id: 2,
+        name: 'phone',
+        attrs: ['brand', 'model', 'productionYear']
+      }, {
+        _id: 3,
+        name: 'animal',
+        attrs: ['race', 'age']
+      }]);
+    })
+    .then(() => {
+      console.log('Asset Types was created');
+    });
+}
+
+function assetSyncCreate () {
+  return Asset.sync()
+    .then(() => {
+      Asset.bulkCreate([{
+        _id: 1,
+        TypeId: 1,
+        name: 'Kia Sportage',
+        parameters: {
+          brand: 'Kia',
+          model: 'Sportage',
+          productionYear: 2016
+        }
+      }, {
+        _id: 2,
+        TypeId: 1,
+        name: 'Hyundai ix35',
+        parameters: {
+          brand: 'Hyundai',
+          model: 'ix35',
+          productionYear: 2016
+        }
+      }, {
+        _id: 3,
+        TypeId: 2,
+        name: 'Lumia 820',
+        parameters: {
+          brand: 'Microsoft',
+          model: 'Lumia 820',
+          productionYear: 2015
+        }
+      }, {
+        _id: 4,
+        TypeId: 2,
+        name: 'iPhone 6s',
+        parameters: {
+          brand: 'Apple',
+          model: 'iPhone 6s',
+          productionYear: 2015
+        }
+      }, {
+        _id: 5,
+        TypeId: 3,
+        name: 'Pestka',
+        parameters: {
+          race: 'Australian Shepard',
+          age: 1,
+          owner: 'Emilia Heller'
+        }
+      }]);
+    })
+    .then(() => {
+      console.log('Asset was created');
+    });
+
+}
+
+function assetSyncRemove () {
+  return Asset.sync()
+    .then(() => {
+      return Asset.destroy({ where: {} });
+    })
+    .then(() => {
+      console.log('Assets was removed');
+    });
+
+}
+
+function allocationSync () {
+  return Allocation.sync()
+    .then(() => {
+      return Allocation.destroy({ where: {} });
+    })
+    .then(() => {
+      console.log('Allocations was removed');
+    });
+}

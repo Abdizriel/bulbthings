@@ -3,7 +3,7 @@
 import app from '../..';
 import request from 'supertest';
 import { expect } from 'chai';
-import { Type } from '../../config/db.conf.js';
+import { Type } from '../../sqldb';
 
 const genType = () => {
   type = Type.build({

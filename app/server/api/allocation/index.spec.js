@@ -2,6 +2,14 @@
 
 import sinon from 'sinon';
 import { expect } from 'chai';
+import { noPreserveCache } from 'proxyquire';
+
+const allocationCtrlStub = {
+  index: 'allocationCtrl.index',
+  create: 'allocationCtrl.create',
+  update: 'allocationCtrl.update',
+  destroy: 'allocationCtrl.destroy'
+};
 
 const routerStub = {
   get: sinon.spy(),
@@ -10,7 +18,21 @@ const routerStub = {
   delete: sinon.spy()
 };
 
+// require the index with our stubbed out modules
+var allocationIndex = noPreserveCache('./index.js', {
+  'express': {
+    Router: function() {
+      return routerStub;
+    }
+  },
+  './allocation.controller': allocationCtrlStub
+});
+
 describe('Index API Router:', () => {
+
+  it('should return an express router instance', function() {
+    expect(allocationIndex).to.equal(routerStub);
+  });
 
   describe('GET /api/allocations', () => {
 
