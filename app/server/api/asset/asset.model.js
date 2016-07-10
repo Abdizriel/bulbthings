@@ -62,7 +62,13 @@ export default function (sequelize, DataTypes) {
     classMethods: {
       associate: models => {
         Asset.belongsTo(models.Type, { onDelete: 'cascade', hooks:true });
-        Asset.hasMany(models.Allocation);
+        Asset.belongsToMany(models.User, {
+          through: {
+            model: models.Allocation
+          },
+          foreignKey: 'AssetId',
+          onDelete: 'cascade'
+        });
       }
     },
     /**

@@ -37,8 +37,13 @@ export default function (sequelize, DataTypes) {
      */
     classMethods: {
       associate: models => {
-        
-        User.hasMany(models.Allocation);
+        User.belongsToMany(models.Asset, {
+          through: {
+            model: models.Allocation
+          },
+          foreignKey: 'UserId',
+          onDelete: 'cascade'
+        });
       }
     },
     /**

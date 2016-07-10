@@ -38,15 +38,6 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: DataTypes.DATE
   }, {
     /**
-     * Relationship
-     */
-    classMethods: {
-      associate: models => {
-        Allocation.belongsTo(models.User, { onDelete: 'cascade', hooks: true });
-        Allocation.belongsTo(models.Asset, { onDelete: 'cascade', hooks: true });
-      }
-    },
-    /**
      * Virtual Getters
      */
     getterMethods: {
