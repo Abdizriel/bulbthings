@@ -58,23 +58,16 @@ export default function (sequelize, DataTypes) {
     },
     updatedAt: DataTypes.DATE
   }, {
-
     /**
-     * Virtual Getters
+     * Relationship
      */
-    getterMethods: {
-      // Public profile information
-      type: function() {
-        return {
-          'id': this._id,
-          'name': this.name,
-          'attrs': this.attrs
-        };
+    classMethods: {
+      associate: models => {
+        Type.hasMany(models.Asset);
       }
     },
-
     /**
-     * Pre-save hooks
+     * Hooks
      */
     hooks: {
       beforeValidate: type => {

@@ -89,6 +89,56 @@
           }
         }
       ];
+      this.allocationFilters = {};
+      this.allocationFilterFields = [
+        {
+          key: 'UserId',
+          type: 'select',
+          templateOptions:{
+            label: 'User',
+            options: [],
+            valueProp: 'id',
+            labelProp: 'name',
+            placeholder: 'Select user from List'
+          },
+          controller: ($scope, UserService) => {
+            UserService.getUsers()
+              .then(data => {
+                const options = data.map(user => {
+                  return {
+                    id: user._id,
+                    name: `${user.firstName} ${user.lastName}`
+                  };
+                });
+                $scope.options.templateOptions.options = options;
+                return options;
+              });
+          }
+        }, {
+          key: 'AssetId',
+          type: 'select',
+          templateOptions:{
+            label: 'Asset',
+            options: [],
+            valueProp: '_id',
+            labelProp: 'name',
+            placeholder: 'Select asset from List'
+          },
+          controller: ($scope, AssetService) => {
+            AssetService.getAssets()
+              .then(data => {
+                $scope.options.templateOptions.options = data;
+                return data;
+              });
+          }
+        }, {
+          key: 'allocated',
+          type: 'checkbox',
+          templateOptions: {
+            label: 'Allocated'
+          }
+        }
+      ];
 
       $scope.$on('$destroy',() => {
         socket.unsyncUpdates('allocation');
@@ -183,8 +233,6 @@
       this.allocation = data;
       this.allocation.allocatedFrom = new Date(data.allocatedFrom);
       this.allocation.allocatedTo = new Date(data.allocatedTo);
-      console.log(data);
-
     }
 
     /**
@@ -227,6 +275,31 @@
       } else {
         this.createAllocation();
       }
+    }
+
+    /**
+     * Filter Allocation data
+     * @function filterResults
+     */
+    filterResults() {
+      this.allocationFilters.allocated = this.allocationFilters.allocated !== undefined
+        ? this.allocationFilters.allocated
+        : false;
+      this.AllocationService.filter(this.allocationFilters)
+        .then(result => {
+          this.allocationsAsyncData = result;
+          this.filterForm.$setUntouched();
+        })
+        .catch(this.handleFormErrors)
+    }
+
+    clearFilters() {
+      this.AllocationService.getAllocations()
+        .then(result => {
+          this.allocationsAsyncData = result;
+          this.allocationFilters = {};
+        })
+        .catch(this.handleFormErrors)
     }
 
     /**

@@ -23,6 +23,7 @@ function AllocationService($http, APIUtilService) {
   let service = {};
 
   service.getAllocations = getAllocations;
+  service.filter = filter;
   service.createAllocation = createAllocation;
   service.updateAllocation = updateAllocation;
   service.deleteAllocation = deleteAllocation;
@@ -36,6 +37,15 @@ function AllocationService($http, APIUtilService) {
    */
   function getAllocations () {
     return $http.get(urlBase)
+      .then(handleSuccess)
+      .catch(handleError);
+  }
+
+  function filter (filters) {
+    const userFilter = filters.UserId ? `UserId=${filters.UserId}` : '';
+    const assetFilter = filters.AssetId ? `AssetId=${filters.AssetId}` : '';
+    const allocatedFilter = `allocated=${filters.allocated}`;
+    return $http.get(`${urlBase}?${userFilter}&${assetFilter}&${allocatedFilter}`)
       .then(handleSuccess)
       .catch(handleError);
   }

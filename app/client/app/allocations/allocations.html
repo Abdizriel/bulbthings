@@ -1,9 +1,16 @@
 <div class="container">
   <div class="row">
     <div class="col-md-3">
+      <form novalidate ng-submit="vm.filterResults()" name="vm.filterForm">
+        <h1>Filters</h1>
+        <formly-form model="vm.allocationFilters" fields="vm.allocationFilterFields" form="vm.filterForm">
+          <button type="submit" class="btn btn-default">Submit</button>
+          <button type="button" class="btn btn-default" ng-click="vm.clearFilters()">Clear Filters</button>
+        </formly-form>
+      </form>
       <form novalidate ng-submit="vm.onSubmit()" name="vm.form">
         <h1>{{vm.updatingAllocation ? "Update" : "Add"}} allocation</h1>
-        <formly-form model="vm.allocation" fields="vm.allocationFields" form="vm.allocationForm">
+        <formly-form model="vm.allocation" fields="vm.allocationFields" form="vm.form">
           <button type="submit" class="btn btn-default" ng-disabled="vm.allocationForm.$invalid">Submit</button>
           <button type="reset" class="btn btn-default" value="Reset">Reset</button>
         </formly-form>

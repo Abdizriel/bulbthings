@@ -56,23 +56,17 @@ export default function (sequelize, DataTypes) {
     },
     updatedAt: DataTypes.DATE
   }, {
-
     /**
-     * Virtual Getters
+     * Relationship
      */
-    getterMethods: {
-      // Public profile information
-      asset: function() {
-        return {
-          'id': this._id,
-          'name': this.name,
-          'parameters': this.parameters
-        };
+    classMethods: {
+      associate: models => {
+        Asset.belongsTo(models.Type, { onDelete: 'cascade', hooks:true });
+        Asset.hasMany(models.Allocation);
       }
     },
-
     /**
-     * Pre-save hooks
+     * Hooks
      */
     hooks: {
       beforeValidate: asset => {

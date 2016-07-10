@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-  let Allocation = sequelize.define('Allocation', {
+  const Allocation = sequelize.define('Allocation', {
 
     _id: {
       type: DataTypes.INTEGER,
@@ -37,7 +37,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     updatedAt: DataTypes.DATE
   }, {
-
+    /**
+     * Relationship
+     */
+    classMethods: {
+      associate: models => {
+        Allocation.belongsTo(models.User, { onDelete: 'cascade', hooks: true });
+        Allocation.belongsTo(models.Asset, { onDelete: 'cascade', hooks: true });
+      }
+    },
     /**
      * Virtual Getters
      */
@@ -87,6 +95,7 @@ module.exports = (sequelize, DataTypes) => {
         })
           .then(allocation => {
             // Check if asset is modified for the same user
+            console.log(allocation)
             if(value.UserId === allocation.UserId) {
 
               // If asset time is shorted for asset allow that operation
@@ -95,9 +104,9 @@ module.exports = (sequelize, DataTypes) => {
                   &&
                 value.allocatedTo <= allocation.allocatedTo
               ) return Promise.resolve();
-              
+
             }
-            
+
             // Otherwise reject
             if(allocation) return Promise.reject('Asset is allocated in that time');
           });

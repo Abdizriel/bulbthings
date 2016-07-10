@@ -44,9 +44,9 @@ function index(req, res) {
     if (req.query.hasOwnProperty('UserId')) query.where['UserId'] = req.query.UserId;
 
     // Search by allocated asset
-    if (req.query.hasOwnProperty('allocated') && req.query.allocated) {
-      query.where['allocatedFrom'] = { $gte: new Date() };
-      query.where['allocatedTo'] = { $lte: new Date() };
+    if (req.query.hasOwnProperty('allocated') && req.query.allocated == 'true') {
+      query.where['allocatedFrom'] = { $lte: new Date() };
+      query.where['allocatedTo'] = { $gte: new Date() };
     }
 
   }

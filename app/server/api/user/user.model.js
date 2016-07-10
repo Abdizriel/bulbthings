@@ -1,7 +1,7 @@
 'use strict';
 
 export default function (sequelize, DataTypes) {
-  return sequelize.define('User', {
+  const User =  sequelize.define('User', {
 
     _id: {
       type: DataTypes.INTEGER,
@@ -32,29 +32,24 @@ export default function (sequelize, DataTypes) {
     },
     updatedAt: DataTypes.DATE
   }, {
-
     /**
-     * Virtual Getters
+     * Relationship
      */
-    getterMethods: {
-      // Public profile information
-      profile: function() {
-        return {
-          'firstName': this.firstName,
-          'lastName': this.lastName,
-          'email': this.email
-        };
+    classMethods: {
+      associate: models => {
+        
+        User.hasMany(models.Allocation);
       }
     },
-
     /**
-     * Pre-save hooks
+     * Hooks
      */
     hooks: {
       afterUpdate: user => {
         user.updatedAt = new Date();
+        user.save();
       }
     }
   });
-
+  return User;
 };
