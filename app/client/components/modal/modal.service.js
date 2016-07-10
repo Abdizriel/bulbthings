@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('meanProcessStreetApp')
+angular.module('bulbthings')
   .factory('Modal', function($rootScope, $uibModal) {
     /**
      * Opens a modal

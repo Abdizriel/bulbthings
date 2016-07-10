@@ -65,6 +65,6 @@
     return Util;
   }
 
-  angular.module('meanProcessStreetApp.util')
+  angular.module('bulbthings.util')
     .factory('Util', UtilService);
 })();

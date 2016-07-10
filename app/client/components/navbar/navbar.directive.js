@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('meanProcessStreetApp')
+angular.module('bulbthings')
   .directive('navbar', () => ({
     templateUrl: 'components/navbar/navbar.html',
     restrict: 'E',

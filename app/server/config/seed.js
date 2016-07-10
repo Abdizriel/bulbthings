@@ -43,15 +43,15 @@ function typeSync () {
     .then(() => {
       Type.bulkCreate([{
         _id: 1,
-        name: 'car',
+        name: 'Car',
         attrs: ['brand', 'model', 'productionYear']
       }, {
         _id: 2,
-        name: 'phone',
+        name: 'Phone',
         attrs: ['brand', 'model', 'productionYear']
       }, {
         _id: 3,
-        name: 'animal',
+        name: 'Animal',
         attrs: ['race', 'age']
       }]);
     })

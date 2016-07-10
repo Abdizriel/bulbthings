@@ -22,7 +22,9 @@ let Allocation = db.sequelize.import('../api/allocation/allocation.model');
 Allocation.belongsTo(User); // Will add userId to allocation
 Allocation.belongsTo(Asset); // Will add assetId to allocation
 
-Asset.belongsTo(Type); // Will add assetId to allocation
+// Will add TypeId to Asset
+Type.hasMany(Asset);
+Asset.belongsTo(Type);
 
 // Add Models to Sequelize
 db.User = User;

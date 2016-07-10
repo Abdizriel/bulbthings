@@ -2,8 +2,16 @@
 
 (function() {
 
+  /** Class representing a Users view. */
   class UsersController {
 
+    /**
+     * Create a Users view.
+     * @param {Object} $scope - Application object.
+     * @param {Object} socket - Websocket connection.
+     * @param {Object} UserService - User API service.
+     * @param {Object} toastr - Notification directive.
+     */
     constructor($scope, socket, UserService, toastr) {
       this.toastr = toastr;
       this.socket = socket;
@@ -53,48 +61,74 @@
       })
     }
 
+    /**
+     * On init get data from User service and synchronize updates
+     * @function $onInit
+     */
     $onInit() {
       this.UserService.getUsers()
         .then(response => {
           this.usersAsyncData = response;
           this.socket.syncUpdates('user', this.usersAsyncData);
         })
-        .catch(err => console.error(err));
-    }
-
-    removeUser(id) {
-      this.UserService.deleteUser(id)
-        .then(() => {
-          this.toastr.success('User was removed', 'Success');
-        })
         .catch(this.handleFormErrors.bind(this));
     }
 
+    /**
+     * Remove user
+     * @function removeUser
+     * @param {string} id - User Id
+     */
+    removeUser(id) {
+      this.UserService.deleteUser(id)
+        .then(() => this.toastr.success('User was removed', 'Success'))
+        .catch(this.handleFormErrors.bind(this));
+    }
+
+    /**
+     * Setting form data with user data and flag it as update operation
+     * @function startUpdate
+     * @param {Object} data - User data
+     */
     startUpdate(data) {
       this.updatingUser = true;
       this.user = data;
     }
 
+    /**
+     * Clear update flag, form data and mark it as untouched
+     * @function cancelUpdate
+     */
     cancelUpdate() {
       this.updatingUser = false;
       this.user = {};
       this.form.$setUntouched();
     }
 
+    /**
+     * Create user from form data
+     * @function createUser
+     */
     createUser() {
       this.UserService.createUser(this.user)
         .then(this.handleFormSuccess.bind(this, 'New user was added'))
         .catch(this.handleFormErrors.bind(this));
     }
 
+    /**
+     * Update user from form data
+     * @function updateUser
+     */
     updateUser() {
-      let userCopy = Object.assign({}, this.user);
-
-      this.UserService.updateUser(userCopy)
+      this.UserService.updateUser(this.user)
         .then(this.handleFormSuccess.bind(this, 'User was updated'))
         .catch(this.handleFormErrors.bind(this));
     }
 
+    /**
+     * Decide what operation run create or update
+     * @function onSubmit
+     */
     onSubmit() {
       if(this.updatingUser){
         this.updateUser();
@@ -103,6 +137,11 @@
       }
     }
 
+    /**
+     * Handle success operation of create/update
+     * @function handleFormSuccess
+     * @param {string} message - Success notification message
+     */
     handleFormSuccess (message) {
       this.updatingUser = false;
       this.toastr.success(message, 'Success');
@@ -110,6 +149,11 @@
       this.form.$setUntouched();
     }
 
+    /**
+     * Handle error operation of User Service
+     * @function handleFormSuccess
+     * @param {Object} error - Operation errors
+     */
     handleFormErrors (error) {
       const { errors } = error;
       errors.forEach(error => this.toastr.error(error.message, 'Error'));
@@ -117,7 +161,7 @@
 
   }
 
-  angular.module('meanProcessStreetApp')
+  angular.module('bulbthings')
     .component('users', {
       templateUrl: 'app/users/users.html',
       controller: UsersController,

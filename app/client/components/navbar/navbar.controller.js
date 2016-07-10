@@ -13,7 +13,7 @@ class NavbarController {
     'state': 'assets'
   }, {
     'title': 'Asset Types',
-    'state': 'asset-types'
+    'state': 'types'
   }, {
     'title': 'Allocations',
     'state': 'allocations'
@@ -23,5 +23,5 @@ class NavbarController {
 }
 
 
-angular.module('meanProcessStreetApp')
+angular.module('bulbthings')
   .controller('NavbarController', NavbarController);

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('meanProcessStreetApp')
+angular.module('bulbthings')
   .directive('footer', function() {
     return {
       templateUrl: 'components/footer/footer.html',

@@ -1,5 +1,5 @@
 (function(angular, undefined) {
-  angular.module("meanProcessStreetApp.constants", [])
+  angular.module("bulbthings.constants", [])
 
 .constant("appConfig", {
 	"userRoles": [

@@ -2,8 +2,8 @@
 
 angular.module('bulbthings')
   .config(function($stateProvider) {
-    $stateProvider.state('users', {
-      url: '/users',
-      template: '<users></users>'
+    $stateProvider.state('assets', {
+      url: '/assets',
+      template: '<assets></assets>'
     });
   });

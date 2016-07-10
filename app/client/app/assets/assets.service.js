@@ -2,47 +2,47 @@
 
 angular
   .module('bulbthings')
-  .factory('UserService', UserService);
+  .factory('AssetService', AssetService);
 
-UserService.$inject = ['$http'];
+AssetService.$inject = ['$http'];
 
-function UserService($http) {
-  const urlBase = '/api/users';
+function AssetService($http) {
+  const urlBase = '/api/assets';
   let service = {};
 
-  service.getUsers = getUsers;
-  service.getUser = getUser;
-  service.createUser = createUser;
-  service.updateUser = updateUser;
-  service.deleteUser = deleteUser;
+  service.getAssets = getAssets;
+  service.getAsset = getAsset;
+  service.createAsset = createAsset;
+  service.updateAsset = updateAsset;
+  service.deleteAsset = deleteAsset;
 
   return service;
 
-  function getUsers () {
+  function getAssets () {
     return $http.get(urlBase)
       .then(handleSuccess)
       .catch(handleError);
   }
 
-  function getUser (id) {
+  function getAsset (id) {
     return $http.get(urlBase + '/' + id)
       .then(handleSuccess)
       .catch(handleError);
   }
 
-  function createUser (user) {
-    return $http.post(urlBase, user)
+  function createAsset (asset) {
+    return $http.post(urlBase, asset)
       .then(handleSuccess)
       .catch(handleError);
   }
 
-  function updateUser (user) {
-    return $http.put(urlBase + '/' + user._id, user)
+  function updateAsset (asset) {
+    return $http.put(urlBase + '/' + asset._id, asset)
       .then(handleSuccess)
       .catch(handleError);
   }
 
-  function deleteUser (id) {
+  function deleteAsset (id) {
     return $http.delete(urlBase + '/' + id)
       .then(handleSuccess)
       .catch(handleError);
@@ -55,17 +55,20 @@ function UserService($http) {
   function handleError(error) {
     let returnedError;
 
-    if(error.data.errors) {
+    if (error.data.errors) {
       returnedError = error.data.errors.map(item => {
         return {
-          message: item.message,
-          field: item.path
+          message: item.message
         }
       });
+
+    } else if(!error.data.message) {
+      returnedError = [{
+        message: error.data
+      }]
     } else {
       returnedError = [{
-        message: error.data.message,
-        field: error.data.path
+        message: error.data.message
       }]
     }
     return Promise.reject({ success: false, errors: returnedError });

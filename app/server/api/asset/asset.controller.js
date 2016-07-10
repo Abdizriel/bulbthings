@@ -121,27 +121,25 @@ function update(req, res) {
  */
 function validateUpdateParameters(req) {
   return function(entity) {
-    // if (req.body.parameters) {
-    //   const typeId = req.body.TypeId || entity.TypeId;
-    //   Type.findById(typeId)
-    //     .then(type => {
-    //       if (!type) return Promise.reject('Type not exist');
-    //       const typeAttributes = type.attrs;
-    //       const parametersKeys = Object.keys(req.body.parameters);
-    //     })
-    // }
-    // console.log(entity.parameters);
-    // console.log(req.body.parameters);
-    //
-    // const typeAttributes = entity.attrs;
-    // const parametersKeys = Object.keys(req.body.parameters);
-    // const missingParameters = typeAttributes.filter(attr => {
-    //   return parametersKeys.indexOf(attr) == -1;
-    // });
-    //
-    // if(missingParameters) return Promise.reject(`Not all parameters are provided: ${ missingParameters.join(', ')}`);
+    if (!req.body.parameters) return entity;
 
-    return entity;
+    const typeId = req.body.TypeId || entity.TypeId;
+
+    return Type.findById(typeId)
+      .then(type => {
+        if (!type) return Promise.reject('Type not exist');
+        const typeAttributes = type.attrs;
+        const assetParameters = req.body.parameters || entity.parameters;
+        const parametersKeys = Object.keys(assetParameters);
+        const missingParameters = typeAttributes.filter(attr => {
+          return parametersKeys.indexOf(attr) == -1;
+        });
+        if(missingParameters.length) return Promise.reject(`Not all parameters are provided: ${ missingParameters.join(', ')}`);
+        return entity;
+      })
+      .catch(err => Promise.reject(err));
+
+
   }
 }
 

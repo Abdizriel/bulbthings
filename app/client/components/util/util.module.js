@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('meanProcessStreetApp.util', []);
+angular.module('bulbthings.util', []);

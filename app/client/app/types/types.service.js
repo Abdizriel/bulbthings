@@ -2,47 +2,47 @@
 
 angular
   .module('bulbthings')
-  .factory('UserService', UserService);
+  .factory('TypeService', TypeService);
 
-UserService.$inject = ['$http'];
+TypeService.$inject = ['$http'];
 
-function UserService($http) {
-  const urlBase = '/api/users';
+function TypeService($http) {
+  const urlBase = '/api/types';
   let service = {};
 
-  service.getUsers = getUsers;
-  service.getUser = getUser;
-  service.createUser = createUser;
-  service.updateUser = updateUser;
-  service.deleteUser = deleteUser;
+  service.getTypes = getTypes;
+  service.getType = getType;
+  service.createType = createType;
+  service.updateType = updateType;
+  service.deleteType = deleteType;
 
   return service;
 
-  function getUsers () {
+  function getTypes () {
     return $http.get(urlBase)
       .then(handleSuccess)
       .catch(handleError);
   }
 
-  function getUser (id) {
+  function getType (id) {
     return $http.get(urlBase + '/' + id)
       .then(handleSuccess)
       .catch(handleError);
   }
 
-  function createUser (user) {
-    return $http.post(urlBase, user)
+  function createType (type) {
+    return $http.post(urlBase, type)
       .then(handleSuccess)
       .catch(handleError);
   }
 
-  function updateUser (user) {
-    return $http.put(urlBase + '/' + user._id, user)
+  function updateType (type) {
+    return $http.put(urlBase + '/' + type._id, type)
       .then(handleSuccess)
       .catch(handleError);
   }
 
-  function deleteUser (id) {
+  function deleteType (id) {
     return $http.delete(urlBase + '/' + id)
       .then(handleSuccess)
       .catch(handleError);

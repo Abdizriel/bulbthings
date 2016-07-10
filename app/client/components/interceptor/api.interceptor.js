@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-  .module('meanProcessStreetApp')
+  .module('bulbthings')
   .factory('APIInterceptor', APIInterceptor);
 
 function APIInterceptor() {
