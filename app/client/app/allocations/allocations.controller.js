@@ -10,39 +10,66 @@
      * @param {Object} $scope - Application object.
      * @param {Object} socket - Websocket connection.
      * @param {Object} AllocationService - Allocation API service.
+     * @param {Object} UserService - User API service.
+     * @param {Object} AssetService - Asset API service.
      * @param {Object} toastr - Notification directive.
      */
-    constructor($scope, socket, AllocationService, toastr) {
+    constructor($scope, socket, AllocationService, AssetService, UserService, toastr) {
       this.toastr = toastr;
       this.socket = socket;
       this.AllocationService = AllocationService;
+      this.AssetService = AssetService;
+      this.UserService = UserService;
       this.allocationsAsyncData = [];
       this.allocationsData = [];
+      this.assetsData = [];
+      this.formattedAssets = {};
+      this.usersData = [];
+      this.formattedUsers = {};
       this.updatingAllocation = false;
       this.allocation = {};
       this.allocationFields = [
         {
-          key: 'name',
-          allocation: 'input',
-          templateOptions: {
+          key: 'UserId',
+          type: 'select',
+          templateOptions:{
+            label: 'User',
+            options: [],
+            valueProp: 'id',
+            labelProp: 'name',
             required: true,
-            allocation: 'name',
-            label: 'Asset Allocation Name',
-            placeholder: 'Enter asset allocation name'
+            placeholder: 'Select user from List'
           },
-          validation: {
-            messages: {
-              required: 'Asset allocation name is required'
-            }
+          controller: ($scope, UserService) => {
+            UserService.getUsers()
+              .then(data => {
+                const options = data.map(user => {
+                  return {
+                    id: user._id,
+                    name: `${user.firstName} ${user.lastName}`
+                  };
+                });
+                $scope.options.templateOptions.options = options;
+                return options;
+              });
           }
         }, {
-          key: 'attrs',
-          allocation: 'input',
-          templateOptions: {
+          key: 'AssetId',
+          type: 'select',
+          templateOptions:{
+            label: 'Asset',
+            options: [],
+            valueProp: '_id',
+            labelProp: 'name',
             required: true,
-            allocation: 'attrs',
-            label: 'Attributes',
-            placeholder: 'Enter attributes separated by comma'
+            placeholder: 'Select asset from List'
+          },
+          controller: ($scope, AssetService) => {
+            AssetService.getAssets()
+              .then(data => {
+                $scope.options.templateOptions.options = data;
+                return data;
+              });
           }
         }
       ];
@@ -57,12 +84,66 @@
      * @function $onInit
      */
     $onInit() {
-      this.AllocationService.getAllocations()
+      this.syncAllocations()
+        .then(() => this.syncUsers())
+        .then(() => this.syncAssets())
+        .catch(this.handleFormErrors.bind(this));
+    }
+
+    /**
+     * Synchronize Allocation database in real time
+     * @function syncAllocations
+     */
+    syncAllocations() {
+      return this.AllocationService.getAllocations()
         .then(response => {
           this.allocationsAsyncData = response;
           this.socket.syncUpdates('allocation', this.allocationsAsyncData);
         })
-        .catch(this.handleFormErrors.bind(this));
+    }
+
+    /**
+     * Synchronize Asset database in real time
+     * @function syncAssets
+     */
+    syncAssets() {
+      return this.AssetService.getAssets()
+        .then(response => {
+          this.assetsData = response;
+          this.socket.syncUpdates('asset', this.assetsData, this.formatAssetsData());
+        })
+    }
+
+    /**
+     * Format Asset Types data to nice format for view
+     * @function formatTypesData
+     */
+    formatAssetsData() {
+      this.assetsData.map(asset => {
+        this.formattedAssets[asset._id] = asset.name;
+      });
+    }
+
+    /**
+     * Synchronize User database in real time
+     * @function syncUsers
+     */
+    syncUsers() {
+      return this.UserService.getUsers()
+        .then(response => {
+          this.usersData = response;
+          this.socket.syncUpdates('user', this.usersData, this.formatUsersData());
+        })
+    }
+
+    /**
+     * Format User Types data to nice format for view
+     * @function formatTypesData
+     */
+    formatUsersData() {
+      this.usersData.map(user => {
+        this.formattedUsers[user._id] = `${user.firstName} ${user.lastName}`;
+      });
     }
 
     /**

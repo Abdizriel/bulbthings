@@ -40,15 +40,17 @@ function APIUtilService() {
     if(error.data.errors) {
       returnedError = error.data.errors.map(item => {
         return {
-          message: item.message,
-          field: item.path
+          message: item.message
         }
       });
+    } else if (error.status === 403) {
+      returnedError = [{
+        message: 'Invalid API key'
+      }];
     } else {
       returnedError = [{
-        message: error.data.message,
-        field: error.data.path
-      }]
+        message: error.data.message
+      }];
     }
     return Promise.reject({ success: false, errors: returnedError });
   }

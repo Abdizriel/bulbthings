@@ -15,16 +15,20 @@
         <thead>
           <tr>
             <th st-sort="_id" st-sort-default="true">Id</th>
-            <th st-sort="name">Name</th>
-            <th st-sort="attrs">Attributes</th>
+            <th st-sort="UserId">User</th>
+            <th st-sort="AssetId">Asset</th>
+            <th st-sort="allocatedFrom">From</th>
+            <th st-sort="allocatedTo">To</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr ng-repeat="row in vm.allocationsData">
             <td>{{::row._id}}</td>
-            <td>{{::row.name}}</td>
-            <td>{{::row.attrs}}</td>
+            <td>{{vm.formattedUsers[row.UserId]}}</td>
+            <td>{{vm.formattedAssets[row.AssetId]}}</td>
+            <td>{{::row.allocatedFrom | date}}</td>
+            <td>{{::row.allocatedTo | date}}</td>
             <td>
               <button type="button" ng-click="vm.removeAllocation(row._id)" class="btn btn-sm btn-danger">
                 Delete

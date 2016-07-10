@@ -106,15 +106,15 @@
       return this.TypeService.getTypes()
         .then(response => {
           this.typesData = response;
-          this.socket.syncUpdates('type', this.typesData, this.parseTypes());
+          this.socket.syncUpdates('type', this.typesData, this.formatTypesData());
         })
     }
 
     /**
-     * Parse Asset Types data to nice format for view
-     * @function parseTypes
+     * Format Asset Types data to nice format for view
+     * @function formatTypesData
      */
-    parseTypes() {
+    formatTypesData() {
       this.typesData.map(type => {
         this.formatedTypes[type._id] = type.name;
       });
