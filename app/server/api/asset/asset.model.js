@@ -67,6 +67,7 @@ export default function (sequelize, DataTypes) {
             model: models.Allocation
           },
           foreignKey: 'AssetId',
+          constraints: false,
           onDelete: 'cascade'
         });
       }
