@@ -8,16 +8,16 @@ import express from 'express';
  */
 import AllocationController from './allocation.controller';
 
-import auth from '../auth';
+import * as auth from '../auth';
 
 var router = express.Router();
 
 // /api/allocations routes configs
-router.get('/', auth.validateApiKey, AllocationController.index);
-router.post('/', auth.validateApiKey, AllocationController.create);
+router.get('/', auth.validateApiKey(), AllocationController.index);
+router.post('/', auth.validateApiKey(), AllocationController.create);
 
 // /api/allocations/:id routes configs
-router.put('/:id', auth.validateApiKey, AllocationController.update);
-router.delete('/:id', auth.validateApiKey, AllocationController.destroy);
+router.put('/:id', auth.validateApiKey(), AllocationController.update);
+router.delete('/:id', auth.validateApiKey(), AllocationController.destroy);
 
 module.exports = router;

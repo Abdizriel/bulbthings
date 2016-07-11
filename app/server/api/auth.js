@@ -1,3 +1,5 @@
+import compose from 'composable-middleware';
+
 const apiKeys = [
     '778b6b01-68ba-4156-970e-fd4fdb18c7dd',
     '807a5d97-3500-4ed9-b1cc-777cbdb8488a',
@@ -14,20 +16,16 @@ const apiKeys = [
 /**
  * @function validateApiKey
  * @description Validate if correct api was provided
- * @param {Object} req - Express Framework Request Object
- * @param {Object} res - Express Framework Response Object
- * @param {Function} next - Callback
  */
-function validateApiKey (req, res, next) {
-    if(!req.headers.apikey) return res.status(403).send('API key must be provided');
+export function validateApiKey () {
+  return compose()
+    .use(function(req, res, next) {
+      if (!req.headers.apikey) return res.status(403).send('API key must be provided');
 
-    if(apiKeys.indexOf(req.headers.apikey) >= 0) {
+      if (apiKeys.indexOf(req.headers.apikey) >= 0) {
         return next();
-    } else {
+      } else {
         return res.status(403).send('Forbidden');
-    }
-}
-
-export default {
-    validateApiKey
+      }
+    });
 }

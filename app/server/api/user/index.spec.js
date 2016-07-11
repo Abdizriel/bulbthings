@@ -1,22 +1,51 @@
 'use strict';
 
-import sinon from 'sinon';
-import { expect } from 'chai';
+var proxyquire = require('proxyquire').noPreserveCache();
 
-const routerStub = {
+var userCtrlStub = {
+  index: 'userCtrl.index',
+  show: 'userCtrl.show',
+  create: 'userCtrl.create',
+  update: 'userCtrl.update',
+  destroy: 'userCtrl.destroy'
+};
+
+var authServiceStub = {
+  validateApiKey() {
+    return 'auth.validateApiKey';
+  }
+};
+
+var routerStub = {
   get: sinon.spy(),
   put: sinon.spy(),
+  patch: sinon.spy(),
   post: sinon.spy(),
   delete: sinon.spy()
 };
 
-describe('Index API Router:', () => {
+// require the index with our stubbed out modules
+var userIndex = proxyquire('./index.js', {
+  'express': {
+    Router: function() {
+      return routerStub;
+    }
+  },
+  './user.controller': userCtrlStub,
+  '../auth': authServiceStub
+});
+
+describe('User API Router:', () => {
+
+  it('should return an express router instance', function() {
+    expect(userIndex).to.equal(routerStub);
+  });
 
   describe('GET /api/users', () => {
 
-    it('should verify route to user.controller.index', () => {
+    it('should route to user.controller.index', function() {
       expect(routerStub.get
-        .withArgs('/', 'indexCtrl.index')
+        .withArgs('/', 'auth.validateApiKey', 'userCtrl.index')
       ).to.have.been.calledOnce;
     });
 
@@ -24,19 +53,19 @@ describe('Index API Router:', () => {
 
   describe('POST /api/users', () => {
 
-    it('should route to user.controller.create', () => {
-    expect(routerStub.post
-      .withArgs('/', 'indexCtrl.create')
-    ).to.have.been.calledOnce;
-  });
+    it('should route to user.controller.create', function() {
+      expect(routerStub.post
+        .withArgs('/', 'auth.validateApiKey', 'userCtrl.create')
+      ).to.have.been.calledOnce;
+    });
 
   });
 
   describe('DELETE /api/users/:id', () => {
 
-    it('should verify route to user.controller.destroy', () => {
+    it('should route to user.controller.destroy', function() {
       expect(routerStub.delete
-        .withArgs('/:id', 'indexCtrl.destroy')
+        .withArgs('/:id', 'auth.validateApiKey', 'userCtrl.destroy')
       ).to.have.been.calledOnce;
     });
 
@@ -44,9 +73,9 @@ describe('Index API Router:', () => {
 
   describe('PUT /api/users/:id', () => {
 
-    it('should verify route to user.controller.update', () => {
+    it('should route to user.controller.update', function() {
       expect(routerStub.put
-        .withArgs('/:id', 'indexCtrl.update')
+        .withArgs('/:id', 'auth.validateApiKey', 'userCtrl.update')
       ).to.have.been.calledOnce;
     });
 
@@ -54,9 +83,9 @@ describe('Index API Router:', () => {
 
   describe('GET /api/users/:id', () => {
 
-    it('should verify route to user.controller.show', () => {
+    it('should route to user.controller.show', function() {
       expect(routerStub.get
-        .withArgs('/:id', 'indexCtrl.show')
+        .withArgs('/', 'auth.validateApiKey', 'userCtrl.show')
       ).to.have.been.calledOnce;
     });
 
