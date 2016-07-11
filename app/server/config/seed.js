@@ -11,8 +11,7 @@ allocationSyncRemove()
   .then(() => userSync())
   .then(() => assetSyncRemove())
   .then(() => typeSync())
-  .then(() => assetSyncCreate())
-  .then(() => allocationSyncCreate());
+  .then(() => assetSyncCreate());
 
 function userSync () {
   return User.sync()
