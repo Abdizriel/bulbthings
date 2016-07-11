@@ -72,8 +72,8 @@ module.exports = (sequelize, DataTypes) => {
         return Allocation.findOne({
           where: {
             AssetId: value.AssetId,
-            allocatedFrom: { $lte: new Date(value.allocatedTo) },
-            allocatedTo: { $gte: new Date(value.allocatedFrom) }
+            allocatedFrom: { $lt: new Date(value.allocatedTo) },
+            allocatedTo: { $gt: new Date(value.allocatedFrom) }
           }
         })
           .then(allocation => {
@@ -88,8 +88,8 @@ module.exports = (sequelize, DataTypes) => {
         return Allocation.findAll({
           where: {
             AssetId: value.AssetId,
-            allocatedFrom: { $lte: new Date(value.allocatedTo) },
-            allocatedTo: { $gte: new Date(value.allocatedFrom) }
+            allocatedFrom: { $lt: new Date(value.allocatedTo) },
+            allocatedTo: { $gt: new Date(value.allocatedFrom) }
           }
         })
           .then(allocations => {

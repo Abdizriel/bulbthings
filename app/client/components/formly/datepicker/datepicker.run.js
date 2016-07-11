@@ -47,8 +47,6 @@
       ngModelAttrs[camelize(binding)] = {bound: binding};
     });
 
-    console.log(ngModelAttrs);
-
     formlyConfig.setType({
       name: 'datepicker',
       templateUrl: 'components/formly/datepicker/datepicker.html',

@@ -45,8 +45,8 @@ export function index(req, res) {
 
     // Search by allocated asset
     if (req.query.hasOwnProperty('allocated') && req.query.allocated == 'true') {
-      query.where['allocatedFrom'] = { $lte: new Date() };
-      query.where['allocatedTo'] = { $gte: new Date() };
+      query.where['allocatedFrom'] = { $lt: new Date() };
+      query.where['allocatedTo'] = { $gt: new Date() };
     }
 
   }

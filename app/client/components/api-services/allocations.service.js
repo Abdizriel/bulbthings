@@ -57,11 +57,11 @@ function AllocationService($http, APIUtilService) {
    * @returns {Promise}
    */
   function createAllocation (allocation) {
+    console.log(allocation.allocatedFrom.toUTCString());
     return $http.post(urlBase, allocation)
       .then(handleSuccess)
       .catch(handleError);
   }
-
   /**
    * Send updated allocation data to BE.
    * @function getAllocation

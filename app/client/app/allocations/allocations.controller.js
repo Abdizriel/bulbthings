@@ -257,6 +257,7 @@
      * @function createAllocation
      */
     createAllocation() {
+      console.log(this.allocation.allocatedFrom);
       this.AllocationService.createAllocation(this.allocation)
         .then(this.handleFormSuccess.bind(this, 'New allocation was added'))
         .catch(this.handleFormErrors.bind(this));
