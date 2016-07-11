@@ -31,7 +31,9 @@ Running `npm test` will run the unit tests with karma.
 ## API
 
 Base API url in development mode is: `http://localhost:9000`
+
 Base API url in production mode is: `http://localhost`
+
 Correct header `apikey` is *778b6b01-68ba-4156-970e-fd4fdb18c7dd*
 
 ### Allocation Service
@@ -39,21 +41,29 @@ Correct header `apikey` is *778b6b01-68ba-4156-970e-fd4fdb18c7dd*
 #### Get All Allocations
 
 Service url: `/api/allocations`
+
 Method: GET
+
 Example request: `http://localhost/api/allocations`
 
 #### Filter Allocations
 
 Service url: `/api/allocations`
+
 Method: GET
+
 Query Parameters: UserId, AssetId, allocated(true/false value)
+
 Example request: `http://localhost/api/allocations?AssetId=137&allocated=true`
 
 #### Create Allocation
 
 Service url: `/api/allocations`
+
 Method: POST
+
 Example request: `http://localhost/api/allocations`
+
 Example request body:
 ``` JavaScript
 {
@@ -67,9 +77,13 @@ Example request body:
 #### Update Allocation
 
 Service url: `/api/allocations/:id`
+
 Method: PUT
+
 Parameters: id
+
 Example request: `http://localhost/api/allocations/1`
+
 Example request body:
 ``` JavaScript
 {
@@ -81,8 +95,11 @@ Example request body:
 #### Delete Allocation
 
 Service url: `/api/allocations/:id`
+
 Method: DELETE
+
 Parameters: id
+
 Example request: `http://localhost/api/allocations/1`
 
 ### Asset Service
@@ -90,20 +107,27 @@ Example request: `http://localhost/api/allocations/1`
 #### Get All Assets
 
 Service url: `/api/assets`
+
 Method: GET
+
 Example request: `http://localhost/api/assets`
 
 #### Get Single Asset
 
 Service url: `/api/assets/:id`
+
 Method: GET
+
 Example request: `http://localhost/api/assets/1`
 
 #### Create Asset
 
 Service url: `/api/assets`
+
 Method: POST
+
 Example request: `http://localhost/api/assets`
+
 Example request body:
 ``` JavaScript
 {
@@ -119,9 +143,13 @@ Example request body:
 #### Update Asset
 
 Service url: `/api/assets/:id`
+
 Method: PUT
+
 Parameters: id
+
 Example request: `http://localhost/api/assets/1`
+
 Example request body:
 ``` JavaScript
 {
@@ -135,8 +163,11 @@ Example request body:
 #### Delete Asset
 
 Service url: `/api/assets/:id`
+
 Method: DELETE
+
 Parameters: id
+
 Example request: `http://localhost/api/assets/1`
 
 ### Type Service
@@ -144,20 +175,27 @@ Example request: `http://localhost/api/assets/1`
 #### Get All Types
 
 Service url: `/api/types`
+
 Method: GET
+
 Example request: `http://localhost/api/types`
 
 #### Get Single Type
 
 Service url: `/api/types/:id`
+
 Method: GET
+
 Example request: `http://localhost/api/types/1`
 
 #### Create Type
 
 Service url: `/api/types`
+
 Method: POST
+
 Example request: `http://localhost/api/types`
+
 Example request body:
 ``` JavaScript
 {
@@ -169,9 +207,13 @@ Example request body:
 #### Update Type
 
 Service url: `/api/types/:id`
+
 Method: PUT
+
 Parameters: id
+
 Example request: `http://localhost/api/types/1`
+
 Example request body:
 ``` JavaScript
 {
@@ -182,8 +224,11 @@ Example request body:
 #### Delete Type
 
 Service url: `/api/types/:id`
+
 Method: DELETE
+
 Parameters: id
+
 Example request: `http://localhost/api/types/1`
 
 ### User Service
@@ -191,20 +236,27 @@ Example request: `http://localhost/api/types/1`
 #### Get All Users
 
 Service url: `/api/users`
+
 Method: GET
+
 Example request: `http://localhost/api/users`
 
 #### Get Single User
 
 Service url: `/api/users/:id`
+
 Method: GET
+
 Example request: `http://localhost/api/users/1`
 
 #### Create User
 
 Service url: `/api/users`
+
 Method: POST
+
 Example request: `http://localhost/api/users`
+
 Example request body:
 ``` JavaScript
 {
@@ -217,9 +269,13 @@ Example request body:
 #### Update User
 
 Service url: `/api/users/:id`
+
 Method: PUT
+
 Parameters: id
+
 Example request: `http://localhost/api/users/1`
+
 Example request body:
 ``` JavaScript
 {
@@ -230,6 +286,9 @@ Example request body:
 #### Delete User
 
 Service url: `/api/users/:id`
+
 Method: DELETE
+
 Parameters: id
+
 Example request: `http://localhost/api/users/1`
