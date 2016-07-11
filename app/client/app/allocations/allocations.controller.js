@@ -40,6 +40,9 @@
             required: true,
             placeholder: 'Select user from List'
           },
+          expressionProperties: {
+          'templateOptions.disabled': 'model.update'
+          },
           controller: ($scope, UserService) => {
             UserService.getUsers()
               .then(data => {
@@ -63,6 +66,9 @@
             labelProp: 'name',
             required: true,
             placeholder: 'Select asset from List'
+          },
+          expressionProperties: {
+            'templateOptions.disabled': 'model.update'
           },
           controller: ($scope, AssetService) => {
             AssetService.getAssets()
@@ -233,6 +239,7 @@
       this.allocation = data;
       this.allocation.allocatedFrom = new Date(data.allocatedFrom);
       this.allocation.allocatedTo = new Date(data.allocatedTo);
+      this.allocation.update = true;
     }
 
     /**
@@ -260,6 +267,7 @@
      * @function updateAllocation
      */
     updateAllocation() {
+      delete this.allocation.update;
       this.AllocationService.updateAllocation(this.allocation)
         .then(this.handleFormSuccess.bind(this, 'Allocation was updated'))
         .catch(this.handleFormErrors.bind(this));

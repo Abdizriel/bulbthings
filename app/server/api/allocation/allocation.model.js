@@ -85,29 +85,19 @@ module.exports = (sequelize, DataTypes) => {
           return Promise.reject('From is later than To');
         }
 
-        return Allocation.find({
+        return Allocation.findAll({
           where: {
             AssetId: value.AssetId,
             allocatedFrom: { $lte: new Date(value.allocatedTo) },
             allocatedTo: { $gte: new Date(value.allocatedFrom) }
           }
         })
-          .then(allocation => {
-            // Check if asset is modified for the same user
-            console.log(allocation)
-            if(value.UserId === allocation.UserId) {
+          .then(allocations => {
+            if(allocations.length > 1) return Promise.reject('Asset is allocated in that time');
 
-              // If asset time is shorted for asset allow that operation
-              if(
-                value.allocatedFrom >= allocation.allocatedFrom
-                  &&
-                value.allocatedTo <= allocation.allocatedTo
-              ) return Promise.resolve();
-
-            }
-
-            // Otherwise reject
-            if(allocation) return Promise.reject('Asset is allocated in that time');
+            const sameUser = value.UserId === allocations[0].UserId;
+            const sameAsset = value.AssetId === allocations[0].AssetId;
+            if(!sameAsset || !sameUser) return Promise.reject('Can\'t update User and Asset ID. Add new allocation');
           });
       },
       afterUpdate: allocation => {
