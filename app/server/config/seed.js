@@ -5,13 +5,14 @@
 
 'use strict';
 import { Type, User, Asset, Allocation } from '../sqldb';
-let type, user, asset, allocation;
+let type, user, asset;
 
-userSync()
+allocationSyncRemove()
+  .then(() => userSync())
   .then(() => assetSyncRemove())
   .then(() => typeSync())
   .then(() => assetSyncCreate())
-  .then(() => allocationSync());
+  .then(() => allocationSyncCreate());
 
 function userSync () {
   return User.sync()
@@ -121,11 +122,18 @@ function assetSyncRemove () {
 
 }
 
-function allocationSync () {
+function allocationSyncRemove () {
   return Allocation.sync()
     .then(() => {
       return Allocation.destroy({ where: {} });
     })
+    .then(() => {
+      console.log('Allocations was removed');
+    });
+}
+
+function allocationSyncCreate () {
+  return Allocation.sync()
     .then(() => {
       return Allocation.bulkCreate([{
         UserId: user[0]._id,
@@ -155,6 +163,6 @@ function allocationSync () {
       }], {returning: true});
     })
     .then(() => {
-      console.log('Allocations was removed');
+      console.log('Allocations was created');
     });
 }
