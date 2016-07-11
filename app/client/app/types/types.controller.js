@@ -16,6 +16,7 @@
       this.toastr = toastr;
       this.socket = socket;
       this.TypeService = TypeService;
+      this.incorrectTypeAttributes = false;
       this.typesAsyncData = [];
       this.typesData = [];
       this.updatingType = false;
@@ -101,7 +102,13 @@
      * @function createType
      */
     createType() {
+      this.incorrectTypeAttributes = false;
       this.type.attrs = this.getAttributes();
+
+      if(this.incorrectTypeAttributes) {
+        this.toastr.error('Attributes must be separated by comma without spaces', 'Error');
+        return;
+      }
 
       this.TypeService.createType(this.type)
         .then(this.handleFormSuccess.bind(this, 'New type was added'))
@@ -113,10 +120,16 @@
      * @function updateType
      */
     updateType() {
+      this.incorrectTypeAttributes = false;
       // Since we can just change name and do not touch attributes
       // this is safety check to not touch existing array of attributes
       if(!Array.isArray(this.type.attrs)) {
         this.type.attrs = this.getAttributes();
+      }
+
+      if(this.incorrectTypeAttributes) {
+        this.toastr.error('Attributes must be separated by comma without spaces', 'Error');
+        return;
       }
 
       this.TypeService.updateType(this.type)
@@ -130,8 +143,13 @@
      * @returns {Array} attrs - Parsed attributes
      */
     getAttributes() {
+      if(/^[a-zA-Z0-9-,]*$/.test(this.type.attrs) == false) {
+        this.incorrectTypeAttributes = true;
+        return;
+      }
+
       let attrs = this.type.attrs.split(',');
-      attrs.map(attribute => attribute.trim());
+      attrs = attrs.map(attribute => attribute.trim());
       return attrs;
     }
 
