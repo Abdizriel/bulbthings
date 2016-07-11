@@ -17,7 +17,6 @@ module.exports = {
   // PostgreSQL connection options
   sequelize: {
     uri:  process.env.SEQUELIZE_URI ||
-          'postgres://postgres/bulbthings' ||
           undefined,
     options: {
       logging: false,

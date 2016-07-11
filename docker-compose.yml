@@ -16,7 +16,9 @@ app1:
     ports:
         - "9001:8080"
     environment:
-        - "NODE_ENV=production"
+        NODE_ENV: production
+        SEQUELIZE_URI: "postgres://postgres:postgres@postgres/postgres"
+
 app2:
     build: ./app/dist
     links:
@@ -24,7 +26,9 @@ app2:
     ports:
         - "9002:8080"
     environment:
-        - "NODE_ENV=production"
+        NODE_ENV: production
+        SEQUELIZE_URI: "postgres://postgres:postgres@postgres/postgres"
+
 app3:
     build: ./app/dist
     links:
@@ -32,10 +36,13 @@ app3:
     ports:
         - "9003:8080"
     environment:
-        - "NODE_ENV=production"
+        NODE_ENV: production
+        SEQUELIZE_URI: "postgres://postgres:postgres@postgres/postgres"
 
 # PostgreSQL
 postgres:
     image: postgres
     ports:
         - "5432:5432"
+    environment:
+        POSTGRES_DB: bulbthings

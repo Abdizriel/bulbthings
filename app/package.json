@@ -1,5 +1,5 @@
 {
-  "name": "mean-process-street",
+  "name": "bulbthings",
   "version": "0.0.0",
   "main": "server/app.js",
   "dependencies": {
