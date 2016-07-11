@@ -1,4 +1,4 @@
-# Bulb Things API Test
+# Bulb Things API
 
 ## Getting Started
 
