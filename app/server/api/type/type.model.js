@@ -13,6 +13,7 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
+        notEmpty: true,
         isUnique: (value, next) => {
           const query = {
             where: {
@@ -49,7 +50,8 @@ export default function (sequelize, DataTypes) {
           value = value.filter(item => typeof item != 'string');
           if(value.length) return next('You must provide String parameters.');
           return next();
-        }
+        },
+        notEmpty: true
       }
     },
     createdAt: {

@@ -1,16 +1,16 @@
 'use strict';
 
-import express from 'express';
+import { Router } from 'express';
 
 /**
  * @description User route Controller
  * @param UserController
  */
-import UserController from './user.controller';
+import * as UserController from './user.controller';
 
 import * as auth from '../auth';
 
-var router = express.Router();
+var router = new Router();
 
 // /api/users routes configs
 router.get('/', auth.validateApiKey(), UserController.index);

@@ -13,6 +13,7 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
+        notEmpty: true,
         isUniqueName: (value, next) => {
           const query = {
             where: {
@@ -47,6 +48,7 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
+        notEmpty: true,
         isInt: true
       }
     },

@@ -46,7 +46,7 @@ describe('Asset Model', () => {
     describe('#name', () => {
 
       it('should fail when saving asset without name', () => {
-        delete asset.name;
+        asset.name = '';
         return expect(asset.save()).to.be.rejected;
       });
 
@@ -73,7 +73,7 @@ describe('Asset Model', () => {
     describe('#parameters', () => {
 
       it('should fail when saving asset without parameters', () => {
-        delete asset.parameters;
+        asset.parameters = '';
         return expect(asset.save()).to.be.rejected;
       });
 
@@ -92,16 +92,16 @@ describe('Asset Model', () => {
     describe('#TypeId', () => {
 
       it('should fail when saving asset without TypeId', () => {
-        delete asset.TypeId;
-        return expect(asset.save()).to.not.be.rejected;
-      });
-
-      it('should fail when saving asset with unknown TypeId', () => {
-        asset.TypeId = 666;
+        asset.TypeId = '';
         return expect(asset.save()).to.be.rejected;
       });
 
-      it('should fail when saving asset with known TypeId', () => {
+      it('should fail when saving asset with unknown TypeId', () => {
+        asset.TypeId = 'invalidType';
+        return expect(asset.save()).to.be.rejected;
+      });
+
+      it('should pass when saving asset with known TypeId', () => {
         asset.TypeId = 1;
         return expect(asset.save()).to.not.be.rejected;
       });

@@ -43,12 +43,12 @@ describe('Allocation Model', () => {
   describe('#UserId', () => {
 
     it('should fail when saving without UserId', () => {
-      delete allocation.UserId;
+      allocation.UserId = '';
       return expect(allocation.save()).to.be.rejected;
     });
 
     it('should fail when saving with wrong UserId', () => {
-      allocation.UserId = 666666;
+      allocation.UserId = 'wrongUserId';
       return expect(allocation.save()).to.be.rejected;
     });
 
@@ -62,12 +62,12 @@ describe('Allocation Model', () => {
   describe('#AssetId', () => {
 
     it('should fail when saving without AssetId', () => {
-      delete allocation.AssetId;
+      allocation.AssetId = '';
       return expect(allocation.save()).to.be.rejected;
     });
 
     it('should fail when saving with wrong AssetId', () => {
-      allocation.AssetId = 666666;
+      allocation.AssetId = 'wrongAssetId';
       return expect(allocation.save()).to.be.rejected;
     });
 
@@ -81,7 +81,7 @@ describe('Allocation Model', () => {
   describe('#allocatedFrom', () => {
 
     it('should fail when saving without allocatedFrom', () => {
-      delete allocation.allocatedFrom;
+      allocation.allocatedFrom = '';
       return expect(allocation.save()).to.be.rejected;
     });
 
@@ -108,7 +108,7 @@ describe('Allocation Model', () => {
   describe('#allocatedTo', () => {
 
     it('should fail when saving without allocatedTo', () => {
-      delete allocation.allocatedTo;
+      allocation.allocatedTo = '';
       return expect(allocation.save()).to.be.rejected;
     });
 

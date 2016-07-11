@@ -11,16 +11,23 @@ module.exports = (sequelize, DataTypes) => {
     },
     allocatedFrom: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
     },
     allocatedTo: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
     },
     AssetId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
+        notEmpty: true,
         isInt: true
       }
     },
@@ -28,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
+        notEmpty: true,
         isInt: true
       }
     },

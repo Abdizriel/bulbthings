@@ -1,16 +1,16 @@
 'use strict';
 
-import express from 'express';
+import { Router } from 'express';
 
 /**
  * @description Allocation route Controller
  * @param AllocationController
  */
-import AllocationController from './allocation.controller';
+import * as AllocationController from './allocation.controller';
 
 import * as auth from '../auth';
 
-var router = express.Router();
+var router = new Router();
 
 // /api/allocations routes configs
 router.get('/', auth.validateApiKey(), AllocationController.index);

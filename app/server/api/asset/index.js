@@ -1,16 +1,16 @@
 'use strict';
 
-import express from 'express';
+import { Router } from 'express';
 
 /**
  * @description Asset route Controller
  * @param AssetController
  */
-import AssetController from './asset.controller';
+import * as AssetController from './asset.controller';
 
 import * as auth from '../auth';
 
-var router = express.Router();
+var router = new Router();
 
 // /api/assets routes configs
 router.get('/', auth.validateApiKey(), AssetController.index);

@@ -31,7 +31,7 @@ import {
  * @param {Object} req - Express Framework Request Object
  * @param {Object} res - Express Framework Response Object
  */
-function index(req, res) {
+export function index(req, res) {
   return Asset.findAll()
     .then(respondWithResult(res))
     .catch(handleError(res));
@@ -43,7 +43,7 @@ function index(req, res) {
  * @param {Object} req - Express Framework Request Object
  * @param {Object} res - Express Framework Response Object
  */
-function show(req, res) {
+export function show(req, res) {
   return Asset.find({
     where: {
       _id: req.params.id
@@ -60,7 +60,7 @@ function show(req, res) {
  * @param {Object} req - Express Framework Request Object
  * @param {Object} res - Express Framework Response Object
  */
-function create(req, res) {
+export function create(req, res) {
   return Type.findById(req.body.TypeId)
     .then(validateCreateParameters(req))
     .then(() => Asset.create(req.body))
@@ -98,7 +98,7 @@ function validateCreateParameters(req) {
  * @param {Object} req - Express Framework Request Object
  * @param {Object} res - Express Framework Response Object
  */
-function update(req, res) {
+export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
@@ -138,7 +138,6 @@ function validateUpdateParameters(req) {
         return entity;
       })
       .catch(err => Promise.reject(err));
-x
 
   }
 }
@@ -149,7 +148,7 @@ x
  * @param {Object} req - Express Framework Request Object
  * @param {Object} res - Express Framework Response Object
  */
-function destroy(req, res) {
+export function destroy(req, res) {
   return Asset.find({
     where: {
       _id: req.params.id
@@ -159,5 +158,3 @@ function destroy(req, res) {
     .then(removeEntity(res))
     .catch(handleError(res));
 }
-
-export default { index, show, create, update, destroy }

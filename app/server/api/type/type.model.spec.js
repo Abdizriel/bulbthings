@@ -41,7 +41,7 @@ describe('Type Model', () => {
     describe('#name', () => {
 
       it('should fail when saving without name', () => {
-        delete type.name;
+        type.name = '';
         return expect(type.save()).to.be.rejected;
       });
 
@@ -66,11 +66,6 @@ describe('Type Model', () => {
     });
 
     describe('#attrs', () => {
-
-      it('should fail when saving without attrs', () => {
-        delete type.attrs;
-        return expect(type.save()).to.be.rejected;
-      });
 
       it('should fail when saving with attrs type different than Array', () => {
         type.attrs = 'SomeString';

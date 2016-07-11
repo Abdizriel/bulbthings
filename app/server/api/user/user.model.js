@@ -11,11 +11,17 @@ export default function (sequelize, DataTypes) {
     },
     firstName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
     },
     lastName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
     },
     email: {
       type: DataTypes.STRING,
@@ -23,7 +29,8 @@ export default function (sequelize, DataTypes) {
         msg: 'The specified email address is already in use.'
       },
       validate: {
-        isEmail: true
+        isEmail: true,
+        notEmpty: true
       }
     },
     createdAt: {

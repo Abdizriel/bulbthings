@@ -30,7 +30,7 @@ import {
  * @param {Object} req - Express Framework Request Object
  * @param {Object} res - Express Framework Response Object
  */
-function index(req, res) {
+export function index(req, res) {
   let query = {
     where: {}
   };
@@ -62,7 +62,7 @@ function index(req, res) {
  * @param {Object} req - Express Framework Request Object
  * @param {Object} res - Express Framework Response Object
  */
-function create(req, res) {
+export function create(req, res) {
   Allocation.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(validationError(res));
@@ -74,7 +74,7 @@ function create(req, res) {
  * @param {Object} req - Express Framework Request Object
  * @param {Object} res - Express Framework Response Object
  */
-function update(req, res) {
+export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
@@ -96,7 +96,7 @@ function update(req, res) {
  * @param {Object} req - Express Framework Request Object
  * @param {Object} res - Express Framework Response Object
  */
-function destroy(req, res) {
+export function destroy(req, res) {
   return Allocation.find({
     where: {
       _id: req.params.id
@@ -106,5 +106,3 @@ function destroy(req, res) {
     .then(removeEntity(res))
     .catch(handleError(res));
 }
-
-export default { index, create, update, destroy }
